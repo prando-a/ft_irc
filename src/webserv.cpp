@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#include "../inc/webserv.hpp"
 
 int main (int argc, char **argv)
 {
+	config		config;
 	try
 	{
 		if (argc != 2 || !argv[1][0])
