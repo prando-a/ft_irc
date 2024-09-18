@@ -13,7 +13,7 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
-# include "webserv.hpp"
+# include "ft_irc.hpp"
 
 class config
 {

@@ -1,0 +1,193 @@
+Estructura comando:
+
+:[prefix] COMMAND [params] :[trailing]
+
+Comandos:
+
+1. NICK (cambiar el apodo)
+
+	Este comando se usa para establecer o cambiar el nombre del usuario en IRC.
+
+	Sintaxis:
+		NICK <nickname>
+
+	Ejemplo:
+		NICK JohnDoe
+
+
+
+2. USER (identificación del usuario)
+
+	Este comando se envía al servidor cuando un cliente se conecta.
+	Establece el nombre de usuario, el nombre de host, el servidor y el nombre real del usuario.
+
+	Sintaxis:
+		USER <username> <hostname> <servername> <realname>
+
+	Ejemplo:
+		USER johndoe localhost irc.server.com :John Doe
+
+
+
+3. JOIN (unirse a un canal)
+
+	Este comando permite que un usuario se una a un canal.
+
+	Sintaxis:
+		JOIN <#channel>
+
+	Ejemplo:
+		JOIN #general
+
+
+
+4. PART (salir de un canal)
+
+	Este comando se usa para abandonar un canal.
+
+	Sintaxis:
+		PART <#channel>
+
+	Ejemplo:
+		PART #general
+
+
+
+5. PRIVMSG (enviar mensaje privado)
+
+	Este comando permite enviar un mensaje privado a otro usuario o un mensaje a un canal.
+
+	Sintaxis:
+		PRIVMSG <nickname|#channel> :<message>
+
+	Ejemplo:
+		Enviar un mensaje a un usuario:
+			PRIVMSG JohnDoe :Hello, how are you?
+		Enviar un mensaje a un canal:
+			PRIVMSG #general :Hello everyone in the channel!
+
+
+
+6. NOTICE (enviar notificación)
+
+	Este comando es similar a PRIVMSG, pero la diferencia es que no se espera
+	una respuesta automática del receptor. Se usa para enviar notificaciones.
+
+	Sintaxis:
+		NOTICE <nickname o #channel> :<message>
+	Ejemplo:
+		NOTICE #general :This is a server notice.
+
+
+
+7. PING (mantener la conexión activa)
+
+	Este comando es enviado por el servidor para comprobar que el cliente sigue conectado.
+
+	Sintaxis:
+		PING <server>
+	Ejemplo:
+		PING irc.server.com
+
+
+8. PONG (respuesta al PING)
+
+	El cliente responde con PONG para confirmar que sigue conectado.
+
+	Sintaxis:
+		PONG <server>
+	Ejemplo:
+		PONG irc.server.com
+
+
+
+9. MODE (cambiar modos de usuario o canal)
+
+	Este comando permite cambiar los modos de los usuarios o los canales.
+	Los modos son configuraciones especiales como "operador de canal" o "modo de solo lectura".
+
+	Sintaxis:
+		Para un usuario:
+			MODE <nickname> <+|-mode>
+		Para un canal:
+			MODE <#channel> <+|-mode> [target]
+			
+	Ejemplo:
+		Dar privilegios de operador a un usuario en un canal:
+			MODE #general +o JohnDoe
+		Poner un canal en modo de solo lectura:
+			MODE #general +m
+
+
+
+10. TOPIC (cambiar el tema de un canal)
+
+	Este comando cambia o muestra el tema (topic) del canal.
+
+	Sintaxis:
+		TOPIC <#channel> :<new_topic>
+	Ejemplo:
+		TOPIC #general :Welcome to the General Discussion Channel!
+
+
+
+11. KICK (expulsar a un usuario de un canal)
+Este comando se usa para expulsar a un usuario de un canal.
+
+	Sintaxis:
+		KICK <#channel> <nickname> :<reason>
+	Ejemplo:
+		KICK #general JohnDoe :Spamming the channel
+
+
+
+12. INVITE (invitar a un usuario a un canal)
+
+	Permite invitar a un usuario a un canal privado o protegido por clave.
+
+	Sintaxis:
+		INVITE <nickname> <#channel>
+	Ejemplo:
+		INVITE JohnDoe #privatechannel
+
+
+
+13. QUIT (desconectar del servidor)
+
+	Este comando se usa cuando un cliente quiere desconectarse del servidor IRC.
+
+	Sintaxis:
+		QUIT :<message>
+	Ejemplo:
+		QUIT :Goodbye!
+
+
+
+14. WHOIS (información sobre un usuario)
+
+	Se usa para obtener información detallada sobre un usuario conectado.
+
+	Sintaxis:
+		WHOIS <nickname>
+	Ejemplo:
+		WHOIS JohnDoe
+
+
+
+15. LIST (listar canales)
+
+	Este comando se usa para obtener una lista de los canales disponibles en el servidor.
+
+	Sintaxis:
+		LIST
+	Ejemplo:
+		LIST
+
+
+
+
+Resumen
+	Comandos de control de usuario: NICK, USER, QUIT.
+	Comandos de canales: JOIN, PART, TOPIC, MODE, KICK.
+	Comandos de mensajes: PRIVMSG, NOTICE.
+	Comandos de red: PING, PONG, WHOIS, LIST.

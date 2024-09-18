@@ -1,14 +1,15 @@
-NAME = webserv
+NAME = ft_irc
 SRC_FOLDER = src/
 OBJ_FOLDER = obj/
-SRC =	webserv.cpp
+SRC =	ft_irc.cpp
 SRC_O = $(SRC:.cpp=.o)
-FLAGS =  -g -std=c++98 -Wall -Wextra -Werror
+#FLAGS =  -g -std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(addprefix $(OBJ_FOLDER), $(SRC_O))
 	c++ $(FLAGS) -o $@ $^
+	@echo "\n" "100% - Compiled $(NAME) \n"
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.cpp
 	@mkdir -p $(OBJ_FOLDER)
