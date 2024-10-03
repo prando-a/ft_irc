@@ -1,4 +1,4 @@
-NAME = ft_irc
+NAME = ircserv
 SRC_FOLDER = src/
 OBJ_FOLDER = obj/
 SRC =	ft_irc.cpp

@@ -16,8 +16,18 @@
 # include <iostream>
 # include <string>
 # include <vector>
+# include <sstream>
+
+# include <stdlib.h>
+# include <string.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <unistd.h>
 
 # include "config.hpp"
+# include "command.hpp"
+//# include "channel.hpp"
+//# include "client.hpp"
 
 # define RED     	"\x1b[31m"
 # define GREEN   	"\x1b[32m"
@@ -31,6 +41,7 @@
 # define CLEAR		"\033[2J"
 
 class config;
+class command;
 
 
 

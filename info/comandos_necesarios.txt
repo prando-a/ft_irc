@@ -1,0 +1,119 @@
+Estructura comando:
+
+:[prefix] COMMAND [params] :[trailing]
+
+
+
+1. NICK (cambiar el apodo)
+
+	Este comando se usa para establecer o cambiar el nombre del usuario en IRC.
+
+	Sintaxis:
+		[C]   [P]
+		NICK <nickname>
+
+	Ejemplo:
+		[C]   [P]
+		NICK JohnDoe
+
+
+
+2. USER (identificación del usuario)
+
+	Este comando se envía al servidor cuando un cliente se conecta.
+	Establece el nombre de usuario, el nombre de host, el servidor y el nombre real del usuario.
+
+	Sintaxis:
+		USER <username> <hostname> <servername> <realname>
+
+	Ejemplo:
+		[C]   [P]     [P]		[P]				[T]
+		USER johndoe localhost irc.server.com :John Doe
+
+
+
+3. QUIT (desconectar del servidor)
+
+	Este comando se usa cuando un cliente quiere desconectarse del servidor IRC.
+
+	Sintaxis:
+		[C]		[T]
+		QUIT :<message>
+	Ejemplo:
+		QUIT :Goodbye!
+
+
+
+4. JOIN (unirse a un canal)
+
+	Este comando permite que un usuario se una a un canal.
+
+	Sintaxis:
+		JOIN <#channel>
+
+	Ejemplo:
+		JOIN #general
+
+
+
+5. PART (salir de un canal)
+
+	Este comando se usa para abandonar un canal.
+
+	Sintaxis:
+		PART <#channel>
+
+	Ejemplo:
+		PART #general
+
+
+
+6. KICK (expulsar a un usuario de un canal)
+Este comando se usa para expulsar a un usuario de un canal.
+
+	Sintaxis:
+		KICK <#channel> <nickname> :<reason>
+	Ejemplo:
+		KICK #general JohnDoe :Spamming the channel
+
+
+
+7. INVITE (invitar a un usuario a un canal)
+
+	Permite invitar a un usuario a un canal privado o protegido por clave.
+
+	Sintaxis:
+		INVITE <nickname> <#channel>
+	Ejemplo:
+		INVITE JohnDoe #privatechannel
+
+
+
+8. TOPIC (cambiar el tema de un canal)
+
+	Este comando cambia o muestra el tema (topic) del canal.
+
+	Sintaxis:
+		TOPIC <#channel> :<new_topic>
+	Ejemplo:
+		TOPIC #general :Welcome to the General Discussion Channel!
+
+
+
+9. MODE (cambiar modos de usuario o canal)
+
+	Este comando permite cambiar los modos de los usuarios o los canales.
+	Los modos son configuraciones especiales como "operador de canal" o "modo de solo lectura".
+
+	Sintaxis:
+		Para un usuario:
+			MODE <nickname> <+|-mode>
+		Para un canal:
+			MODE <#channel> <+|-mode> [target]
+			
+	Ejemplo:
+		Dar privilegios de operador a un usuario en un canal:
+			MODE #general +o JohnDoe
+		Poner un canal en modo de solo lectura:
+			MODE #general +m
+

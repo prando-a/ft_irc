@@ -18,9 +18,10 @@
 class config
 {
 	private:
-		std::string		_serverName;
-		std::string		_serverRoot;
-		int				_listen;
+		std::string		pass;
+		int				port;
+		int 			socket_fd;
+
 };
 
 #endif

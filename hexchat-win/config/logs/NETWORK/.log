@@ -1,0 +1,12 @@
+**** BEGIN LOGGING AT Wed Oct  2 14:56:52 2024
+
+Oct 02 14:56:52 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 02 14:56:55 *	Connection failed ((336130315) error:1408F10B:SSL routines:ssl3_get_record:wrong version number)
+Oct 02 14:56:55 Are you sure this is a SSL capable server and port?
+Oct 02 14:57:04 *	Looking up localhost
+Oct 02 14:57:04 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 02 14:57:08 *	Connection failed (Connection refused)
+Oct 02 14:57:18 *	Looking up localhost
+Oct 02 14:57:18 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 02 14:57:21 *	Connection failed ((336130315) error:1408F10B:SSL routines:ssl3_get_record:wrong version number)
+Oct 02 14:57:21 Are you sure this is a SSL capable server and port?
