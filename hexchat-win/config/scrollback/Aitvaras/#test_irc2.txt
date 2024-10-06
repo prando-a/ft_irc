@@ -1,0 +1,4 @@
+T 1728217608 19*	Now talking on 22#test_irc2
+T 1728217854 19*	You have left channel 22#test_irc2 (24Išėjo)
+T 1728217875 19*	Now talking on 22#test_irc2
+T 1728218420 19*	You have left channel 22#test_irc2 (24Išėjo)

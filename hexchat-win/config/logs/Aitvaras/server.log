@@ -1,0 +1,33 @@
+**** BEGIN LOGGING AT Sun Oct  6 14:38:25 2024
+
+Oct 06 14:38:25 *	Looking up irc.data.lt
+Oct 06 14:38:25 *	Connecting to irc.data.lt (92.61.32.19:6668)
+Oct 06 14:38:26 *	* Subject: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 14:38:26 *	* Issuer: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 14:38:26 *	* Subject: /C=US/O=Let's Encrypt/CN=R11
+Oct 06 14:38:26 *	* Issuer: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 14:38:26 *	* Subject: /CN=irc.data.lt
+Oct 06 14:38:26 *	* Issuer: /C=US/O=Let's Encrypt/CN=R11
+Oct 06 14:38:27 *	* Certification info:
+Oct 06 14:38:27 *	  Subject:
+Oct 06 14:38:27 *	    CN=irc.data.lt
+Oct 06 14:38:27 *	  Issuer:
+Oct 06 14:38:27 *	    C=US
+Oct 06 14:38:27 *	    O=Let's Encrypt
+Oct 06 14:38:27 *	    CN=R11
+Oct 06 14:38:27 *	  Public key algorithm: rsaEncryption (2048 bits)
+Oct 06 14:38:27 *	  Sign algorithm sha256WithRSAEncryption
+Oct 06 14:38:27 *	  Valid since Sep  9 10:56:48 2024 GM to Dec  8 10:56:47 2024 GM
+Oct 06 14:38:27 *	* Cipher info:
+Oct 06 14:38:27 *	  Version: TLSv1.2, cipher AES256-GCM-SHA384 (256 bits)
+Oct 06 14:38:27 *	Connected. Now logging in.
+Oct 06 14:38:27 *	*** Looking up your hostname...
+Oct 06 14:38:27 *	*** Checking ident...
+Oct 06 14:38:27 *	*** Found your hostname
+Oct 06 14:38:37 *	*** No ident response; username prefixed with ~
+Oct 06 14:38:37 *	Capabilities supported: account-notify away-notify multi-prefix tls userhost-in-names
+Oct 06 14:38:37 *	Capabilities requested: account-notify away-notify multi-prefix userhost-in-names 
+Oct 06 14:38:37 *	CR0M_xanzes is already in use. Retrying with CR0M_xanzes_...
+Oct 06 14:38:37 *	Capabilities acknowledged: account-notify away-notify multi-prefix userhost-in-names 
+**** ENDING LOGGING AT Sun Oct  6 14:38:37 2024
+

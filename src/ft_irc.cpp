@@ -27,7 +27,42 @@ recv, signal, sigaction, lseek, fstat, fcntl, poll
 
 */
 
-int miniserv() {
+std::vector<std::string> split(std::string str)
+{
+	std::vector<std::string> params;
+	std::string tmp;
+	std::stringstream ss(str);
+	while (std::getline(ss, tmp, '\n'))
+		params.push_back(tmp);
+	return params;
+}
+
+void process_command(std::string buffer, server& server, int socket)
+{
+	std::vector<std::string> params = split(buffer);
+	for (size_t i = 0; i < params.size(); i++)
+	{
+		std::cout << "Recibido: " << params[i] << std::endl;
+		try
+		{
+			command cmd(params[i]);
+			server.useCommand(cmd);
+		}
+		catch (const char *e)
+		{
+			send(socket, e, strlen(e), MSG_NOSIGNAL);
+		}
+	}
+}
+
+void handle_sigpipe(int sig) {
+    std::cout << "SIGPIPE received: " << sig << std::endl;
+}
+
+int miniserv()
+{
+	signal(SIGPIPE, handle_sigpipe);
+	server server("password", 6667);
     int server_fd, new_socket;
     struct sockaddr_in address;
     int opt = 1;
@@ -47,35 +82,68 @@ int miniserv() {
     bind(server_fd, (struct sockaddr *)&address, sizeof(address)); //PERMITIDA
 
     // Listen
-    listen(server_fd, 3); //PERMITIDA
+    listen(server_fd, 10); //PERMITIDA
 
-    printf("Servidor escuchando en el puerto 6667...\n"); //NO PERMITIDA
+    std::cout << "Servidor escuchando en el puerto 6667..." << std::endl; //NO PERMITIDA
 
-    // Aceptar una conexión
-	// PERMITIDA
-    new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
-    
-    if (new_socket < 0) {
-        perror("Error al aceptar la conexión");
-        exit(EXIT_FAILURE);
-    }
+    // Configurar poll
+    struct pollfd fds[100];
+    int nfds = 1;
+    fds[0].fd = server_fd;
+    fds[0].events = POLLIN;
 
-    // Mantener el servidor recibiendo mensajes en un bucle
-    while (1) {
-        memset(buffer, 0, sizeof(buffer)); // Limpiar el buffer
-        int valread = read(new_socket, buffer, 1024);
-        if (valread > 0) {
-            printf("Mensaje recibido: %s\n", buffer);
-            // Enviar una respuesta al cliente
-            send(new_socket, "Hooola", strlen("Hooola"), 0);
-            printf("Mensaje enviado: Hello from server\n");
-        } else {
-            printf("Conexión cerrada por el cliente.\n");
-            break; // Salir del bucle si no hay más datos
+    while (1)
+	{
+        int poll_count = poll(fds, nfds, -1);
+        if (poll_count < 0)
+		{
+            perror("poll error");
+            exit(EXIT_FAILURE);
+        }
+
+        for (int i = 0; i < nfds; i++)
+		{
+            if (fds[i].revents & POLLIN) {
+                if (fds[i].fd == server_fd)
+				{
+                    // Aceptar una nueva conexión
+                    new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
+                    if (new_socket < 0) {
+                        perror("Error al aceptar la conexión");
+                        exit(EXIT_FAILURE);
+                    }
+                    // Añadir el nuevo socket al array de poll
+                    fds[nfds].fd = new_socket;
+                    fds[nfds].events = POLLIN;
+                    nfds++;
+                    std::cout << "Nueva conexión aceptada" << std::endl;
+                }
+				else
+				{
+                    // Leer datos del cliente
+                    memset(buffer, 0, sizeof(buffer));
+                    int valread = read(fds[i].fd, buffer, 1024);
+                    if (valread > 0)
+					{
+                        std::vector<std::string> commands = split(buffer);
+						for (size_t i = 0; i < commands.size(); i++)
+						{
+							process_command(commands[i], server, fds[i].fd);
+						}
+                    }
+					else
+					{
+                        // Cerrar la conexión
+                        std::cout << "Conexión cerrada por el cliente." << std::endl;
+                        close(fds[i].fd);
+                        fds[i] = fds[nfds - 1];
+                        nfds--;
+                    }
+                }
+            }
         }
     }
 
-    close(new_socket);
     close(server_fd);
     return 0;
 }
@@ -84,7 +152,7 @@ void command_tester(void)
 {
 	std::string buffer;
 	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
-	&& std::getline(std::cin, buffer) && !(buffer == "EXIT"))
+	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
 	{
 		command cmd(buffer);
 	}
@@ -92,16 +160,15 @@ void command_tester(void)
 
 int main(int argc, char **argv)
 {
-	config		config;
 	try
 	{
 		//if (argc != 2 || !argv[1][0])
 		//	throw "Error: No arguments given.";
-		//miniserv();
-		command_tester();
 	}
 	catch (const char *e)
 		{ std::cerr << e << "\n"; return (1); }
+
+	miniserv();
 
 	return (0);
 }

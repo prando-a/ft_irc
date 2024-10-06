@@ -1,0 +1,48 @@
+**** BEGIN LOGGING AT Sun Oct  6 13:43:36 2024
+
+Oct 06 13:43:36 *	Looking up irc.data.lt
+Oct 06 13:43:36 *	Connecting to irc.data.lt (92.61.32.19:6668)
+Oct 06 13:43:37 *	* Subject: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 13:43:37 *	* Issuer: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 13:43:37 *	* Subject: /C=US/O=Let's Encrypt/CN=R11
+Oct 06 13:43:37 *	* Issuer: /C=US/O=Internet Security Research Group/CN=ISRG Root X1
+Oct 06 13:43:37 *	* Subject: /CN=irc.data.lt
+Oct 06 13:43:37 *	* Issuer: /C=US/O=Let's Encrypt/CN=R11
+Oct 06 13:43:37 *	* Certification info:
+Oct 06 13:43:37 *	  Subject:
+Oct 06 13:43:37 *	    CN=irc.data.lt
+Oct 06 13:43:37 *	  Issuer:
+Oct 06 13:43:37 *	    C=US
+Oct 06 13:43:37 *	    O=Let's Encrypt
+Oct 06 13:43:37 *	    CN=R11
+Oct 06 13:43:37 *	  Public key algorithm: rsaEncryption (2048 bits)
+Oct 06 13:43:37 *	  Sign algorithm sha256WithRSAEncryption
+Oct 06 13:43:37 *	  Valid since Sep  9 10:56:48 2024 GM to Dec  8 10:56:47 2024 GM
+Oct 06 13:43:37 *	* Cipher info:
+Oct 06 13:43:37 *	  Version: TLSv1.2, cipher AES256-GCM-SHA384 (256 bits)
+Oct 06 13:43:37 *	Connected. Now logging in.
+**** BEGIN LOGGING AT Sun Oct  6 14:30:06 2024
+
+Oct 06 14:30:06 No channel joined. Try /join #<channel>
+**** BEGIN LOGGING AT Sun Oct  6 14:39:58 2024
+
+Oct 06 14:39:58 No channel joined. Try /join #<channel>
+**** ENDING LOGGING AT Sun Oct  6 14:40:28 2024
+
+**** ENDING LOGGING AT Sun Oct  6 14:40:29 2024
+
+**** BEGIN LOGGING AT Sun Oct  6 14:41:46 2024
+
+Oct 06 14:41:46 *	Cannot join #test (Requires keyword)
+**** ENDING LOGGING AT Sun Oct  6 14:41:51 2024
+
+**** BEGIN LOGGING AT Sun Oct  6 14:48:18 2024
+
+Oct 06 14:48:18 *	Cannot join #test (Requires keyword)
+**** ENDING LOGGING AT Sun Oct  6 14:48:22 2024
+
+**** BEGIN LOGGING AT Sun Oct  6 14:48:52 2024
+
+Oct 06 14:48:52 *	Cannot join #test (Requires keyword)
+**** ENDING LOGGING AT Sun Oct  6 14:48:57 2024
+

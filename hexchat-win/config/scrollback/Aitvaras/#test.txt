@@ -1,0 +1,42 @@
+T 1728218438 19*	Now talking on 22#test
+T 1728218454 22*	26CR0M_xanzes sets channel keyword to 24patata
+T 1728218483 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218483 19*	Now talking on 22#test
+T 1728218490 24*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218490 19*	You have left channel 22#test (24Išėjo)
+T 1728218506 20*	Cannot join 22#test (20Requires keyword)
+T 1728218511 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218511 19*	Now talking on 22#test
+T 1728218895 24*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218895 19*	You have left channel 22#test (24Išėjo)
+T 1728218898 20*	Cannot join 22#test (20Requires keyword)
+T 1728218902 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218902 19*	Now talking on 22#test
+T 1728218910 24*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218910 19*	You have left channel 22#test (24Išėjo)
+T 1728218913 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218913 19*	Now talking on 22#test
+T 1728218920 24*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218920 19*	You have left channel 22#test (24Išėjo)
+T 1728218927 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218927 19*	Now talking on 22#test
+T 1728218929 24*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218929 19*	You have left channel 22#test (24Išėjo)
+T 1728218932 20*	Cannot join 22#test (20Requires keyword)
+T 1728218937 23*	CR0M_xanzes_ (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218937 19*	Now talking on 22#test
+T 1728228297 29*	#test :No such nick/channel
+T 1728228307 29*	#test :No such nick/channel
+T 1728228346 20<CR0M_xanzes_>30	NICK mamon69
+T 1728228347 18<CR0M_xanzes_18>	NICK mamon69
+T 1728228358 24*	28CR0M_xanzes_ is now known as 18mamon69
+T 1728228358 20*	You are now known as 18mamon69
+T 1728228371 29*	#test :No such nick/channel
+T 1728228388 22*	26CR0M_xanzes has kicked 18mamon69 from 22#test (24CR0M_xanzes)
+T 1728228388 19*	You have been kicked from 22#test by 26CR0M_xanzes (20CR0M_xanzes)
+T 1728236456 29*	#test :No topic is set.
+T 1728236468 22*	26CR0M_xanzes has changed the topic to: yaya
+T 1728236472 22*	Topic for 22#test is: yaya
+T 1728236472 22*	Topic for 22#test set by 26CR0M_xanzes (24Sun Oct  6 19:41:07 2024)
+T 1728236483 22*	Topic for 22#test is: yaya
+T 1728236483 22*	Topic for 22#test set by 26CR0M_xanzes (24Sun Oct  6 19:41:07 2024)

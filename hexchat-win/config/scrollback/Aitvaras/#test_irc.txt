@@ -1,0 +1,5 @@
+T 1728215151 19*	Now talking on 22#test_irc
+T 1728215180 20<CR0M_xanzes>30	MODE @test_irc +k patata
+T 1728215188 20<CR0M_xanzes>30	MODE #test_irc +k patata
+T 1728215193 22*	26CR0M_xanzes sets channel keyword to 24patata
+T 1728218391 19*	You have left channel 22#test_irc (24Išėjo)

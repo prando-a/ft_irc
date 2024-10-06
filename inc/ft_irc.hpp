@@ -14,20 +14,18 @@
 # define IRC_H
 
 # include <iostream>
-# include <string>
-# include <vector>
-# include <sstream>
-
-# include <stdlib.h>
-# include <string.h>
+# include <cstring>
+# include <sys/types.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <unistd.h>
+# include <arpa/inet.h>
+# include <sstream>
+# include <vector>
+# include <poll.h>
+# include <fcntl.h>
+# include <signal.h>
 
-# include "config.hpp"
-# include "command.hpp"
-//# include "channel.hpp"
-//# include "client.hpp"
 
 # define RED     	"\x1b[31m"
 # define GREEN   	"\x1b[32m"
@@ -40,9 +38,30 @@
 # define RESET   	"\x1b[0m"
 # define CLEAR		"\033[2J"
 
-class config;
+enum commandType
+{
+	NICK,
+	USER,
+	QUIT,
+	JOIN,
+	PART,
+	PRIVMSG,
+	KICK,
+	INVITE,
+	TOPIC,
+	MODE,
+	CAP,
+	INVALID = -1
+};
+
+class server;
+class channel;
+class client;
 class command;
 
-
+# include "server.hpp"
+# include "channel.hpp"
+# include "client.hpp"
+# include "command.hpp"
 
 #endif

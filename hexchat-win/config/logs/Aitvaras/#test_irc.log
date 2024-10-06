@@ -1,0 +1,9 @@
+**** BEGIN LOGGING AT Sun Oct  6 13:45:51 2024
+
+Oct 06 13:45:51 *	Now talking on #test_irc
+Oct 06 13:46:20 <CR0M_xanzes>	MODE @test_irc +k patata
+Oct 06 13:46:28 <CR0M_xanzes>	MODE #test_irc +k patata
+Oct 06 13:46:33 *	CR0M_xanzes sets channel keyword to patata
+Oct 06 14:39:51 *	You have left channel #test_irc (Išėjo)
+**** ENDING LOGGING AT Sun Oct  6 14:39:51 2024
+

@@ -1,0 +1,148 @@
+**** BEGIN LOGGING AT Sun Oct  6 13:43:37 2024
+
+Oct 06 13:43:37 *	*** Looking up your hostname...
+Oct 06 13:43:37 *	*** Checking ident...
+Oct 06 13:43:37 *	*** Found your hostname
+Oct 06 13:43:47 *	*** No ident response; username prefixed with ~
+Oct 06 13:43:47 *	Capabilities supported: account-notify away-notify multi-prefix tls userhost-in-names
+Oct 06 13:43:47 *	Capabilities requested: account-notify away-notify multi-prefix userhost-in-names 
+Oct 06 13:43:47 *	Capabilities acknowledged: account-notify away-notify multi-prefix userhost-in-names 
+**** ENDING LOGGING AT Sun Oct  6 13:43:47 2024
+
+**** BEGIN LOGGING AT Sun Oct  6 13:43:47 2024
+
+Oct 06 13:43:47 *	Welcome to the Aitvaras IRC Network CR0M_xanzes!~CR0M_xanz@191.red-79-144-66.dynamicip.rima-tde.net
+Oct 06 13:43:47 *	Your host is irc.data.lt, running version Unreal3.2.10.6
+Oct 06 13:43:47 *	This server was created Tue Jan 19 2016 at 13:55:31 EET
+Oct 06 13:43:47 *	irc.data.lt Unreal3.2.10.6 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+Oct 06 13:43:47 *	CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=20 CHANLIMIT=#:20 MAXLIST=b:100,e:100,I:100 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+Oct 06 13:43:47 *	MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Aitvaras CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+Oct 06 13:43:47 *	STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+Oct 06 13:43:47 *	*** You are connected to irc.data.lt with TLSv1.2-AES256-GCM-SHA384-256bits
+Oct 06 13:43:47 *	There are 11 users and 242 invisible on 4 servers
+Oct 06 13:43:47 *	10 :operator(s) online
+Oct 06 13:43:47 *	223 :channels formed
+Oct 06 13:43:47 *	I have 201 clients and 1 servers
+Oct 06 13:43:47 *	201 2038 :Current local users 201, max 2038
+Oct 06 13:43:47 *	253 27698 :Current global users 253, max 27698
+Oct 06 13:43:47 *	- irc.data.lt Message of the Day - 
+Oct 06 13:43:47 *	- 20/1/2016 13:45
+Oct 06 13:43:47 *	-                      _                      _
+Oct 06 13:43:47 *	-                     ,/                        \,
+Oct 06 13:43:47 *	-           _________{(                          )}_________
+Oct 06 13:43:47 *	-          /.-------./\\                        //\.-------.\          
+Oct 06 13:43:47 *	-         //@@@@@@@//@@\\  )                (  //@@\\@@@@@@@\\
+Oct 06 13:43:47 *	-        //@@@@@@@//@@@@>>/                  \<<@@@@\\@@@@@@@\\
+Oct 06 13:43:47 *	-       //O@O@O@O//@O@O@//                    \\@O@O@\\O@O@O@O\\
+Oct 06 13:43:47 *	-      //OOOOOOOO// OOOO||        \  /         ||OOOO\\OOOOOOOO\\
+Oct 06 13:43:47 *	-     //O%O%O%O%// O%O%O%\\       ))((        //%O%O%O\\%O%O%O%O\\
+Oct 06 13:43:47 *	-    ||%%%%%%%%//'   `%%%%\\     //  \\      //%%%%'   `\\%%%%%%%||
+Oct 06 13:43:47 *	-    ((%%%%%%%((      %%%%%\\   ((    ))    //%%%%%      ))%%%%%%))
+Oct 06 13:43:47 *	-    \:::' `::\\      `:::::\\   \)~~(/    //:::::'     //::' `:::/
+Oct 06 13:43:47 *	-     )'     `;)'      (`  ` \\ `<@  @>' / / '  ')     `(;'     `(
+Oct 06 13:43:47 *	-             (               \`\ )^^( /` /              )
+Oct 06 13:43:47 *	-           _                  ) \\oo//  (
+Oct 06 13:43:47 *	-          (@)                  \  `'   /                      _
+Oct 06 13:43:47 *	-          |-|\__________________\__^__<________oOo__________ (@)
+Oct 06 13:43:47 *	-          | |                                  VVV          \|-|
+Oct 06 13:43:47 *	-          |-|  Welcome To Aitvaras Network www.aitvaras.eu   |-|
+Oct 06 13:43:47 *	-          |_|\_____________________________________________  | |
+Oct 06 13:43:47 *	-          (@)                 / ,/ \_____/ \\ ~\/~         `\|-|
+Oct 06 13:43:47 *	-           ~             ___//^~      \____/\\               (@)
+Oct 06 13:43:47 *	-                        <<<  \     __  <____/||               ~
+Oct 06 13:43:47 *	-                                  <   \ <___/||
+Oct 06 13:43:47 *	-                                     || <___//
+Oct 06 13:43:47 *	-                                     \ \/__//
+Oct 06 13:43:47 *	-                                      ~----~
+Oct 06 13:43:47 *	-                                      
+Oct 06 13:43:47 *	-  Sveiki Uzsuke i Aitvaro IRC tinklo irc.data.lt serveri ! 
+Oct 06 13:43:47 *	-  
+Oct 06 13:43:47 *	-  Serveris skirtas ramiam bendravimui. Karai, floodai, klonavimai
+Oct 06 13:43:47 *	-  ir kitoks naudojimas ne pagal paskirti nebus toleruojamas.   
+Oct 06 13:43:47 *	-  
+Oct 06 13:43:47 *	-  Tinklo taisykles galite perskaityti surinke /RULES
+Oct 06 13:43:47 *	-  
+Oct 06 13:43:47 *	-  Default Services language is Lithuanian, if you wish to use English
+Oct 06 13:43:47 *	-  change it by typing /msg NickServ SET language 2
+Oct 06 13:43:47 *	-  for more help type /msg NickServ HELP SET language
+Oct 06 13:43:47 *	- 
+Oct 06 13:43:47 *	End of /MOTD command.
+Oct 06 13:43:47 *	CR0M_xanzes sets mode +i on CR0M_xanzes
+Oct 06 13:43:47 *	CR0M_xanzes sets mode +s on CR0M_xanzes
+Oct 06 13:43:47 *	CR0M_xanzes sets mode +x on CR0M_xanzes
+Oct 06 13:43:47 *	CR0M_xanzes sets mode +z on CR0M_xanzes
+Oct 06 13:43:47 -Aitvaras-	[Prisijungimo pranešimas - Spa 06 2009] Aitvaro taisyklės: http://www.aitvaras.eu/taisykles
+Oct 06 13:44:34 No channel joined. Try /join #<channel>
+Oct 06 13:45:44 No channel joined. Try /join #<channel>
+Oct 06 14:29:03 No channel joined. Try /join #<channel>
+Oct 06 14:31:08 *	test_irc2 :No such channel
+Oct 06 14:31:10 *	test_irc2 :No such channel
+Oct 06 14:31:31 *	test_irc2 :No such channel
+**** BEGIN LOGGING AT Sun Oct  6 14:38:37 2024
+
+Oct 06 14:38:37 *	Welcome to the Aitvaras IRC Network CR0M_xanzes_!~CR0M_xanz@191.red-79-144-66.dynamicip.rima-tde.net
+Oct 06 14:38:37 *	Your host is irc.data.lt, running version Unreal3.2.10.6
+Oct 06 14:38:37 *	This server was created Tue Jan 19 2016 at 13:55:31 EET
+Oct 06 14:38:37 *	irc.data.lt Unreal3.2.10.6 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+Oct 06 14:38:37 *	CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=20 CHANLIMIT=#:20 MAXLIST=b:100,e:100,I:100 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+Oct 06 14:38:37 *	MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Aitvaras CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+Oct 06 14:38:37 *	STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+Oct 06 14:38:37 *	*** You are connected to irc.data.lt with TLSv1.2-AES256-GCM-SHA384-256bits
+Oct 06 14:38:37 *	There are 11 users and 241 invisible on 4 servers
+Oct 06 14:38:37 *	10 :operator(s) online
+Oct 06 14:38:37 *	217 :channels formed
+Oct 06 14:38:37 *	I have 200 clients and 1 servers
+Oct 06 14:38:37 *	200 2038 :Current local users 200, max 2038
+Oct 06 14:38:37 *	252 27698 :Current global users 252, max 27698
+Oct 06 14:38:37 *	- irc.data.lt Message of the Day - 
+Oct 06 14:38:37 *	- 20/1/2016 13:45
+Oct 06 14:38:37 *	-                      _                      _
+Oct 06 14:38:37 *	-                     ,/                        \,
+Oct 06 14:38:37 *	-           _________{(                          )}_________
+Oct 06 14:38:37 *	-          /.-------./\\                        //\.-------.\          
+Oct 06 14:38:37 *	-         //@@@@@@@//@@\\  )                (  //@@\\@@@@@@@\\
+Oct 06 14:38:37 *	-        //@@@@@@@//@@@@>>/                  \<<@@@@\\@@@@@@@\\
+Oct 06 14:38:37 *	-       //O@O@O@O//@O@O@//                    \\@O@O@\\O@O@O@O\\
+Oct 06 14:38:37 *	-      //OOOOOOOO// OOOO||        \  /         ||OOOO\\OOOOOOOO\\
+Oct 06 14:38:37 *	-     //O%O%O%O%// O%O%O%\\       ))((        //%O%O%O\\%O%O%O%O\\
+Oct 06 14:38:37 *	-    ||%%%%%%%%//'   `%%%%\\     //  \\      //%%%%'   `\\%%%%%%%||
+Oct 06 14:38:37 *	-    ((%%%%%%%((      %%%%%\\   ((    ))    //%%%%%      ))%%%%%%))
+Oct 06 14:38:37 *	-    \:::' `::\\      `:::::\\   \)~~(/    //:::::'     //::' `:::/
+Oct 06 14:38:37 *	-     )'     `;)'      (`  ` \\ `<@  @>' / / '  ')     `(;'     `(
+Oct 06 14:38:37 *	-             (               \`\ )^^( /` /              )
+Oct 06 14:38:37 *	-           _                  ) \\oo//  (
+Oct 06 14:38:37 *	-          (@)                  \  `'   /                      _
+Oct 06 14:38:37 *	-          |-|\__________________\__^__<________oOo__________ (@)
+Oct 06 14:38:37 *	-          | |                                  VVV          \|-|
+Oct 06 14:38:37 *	-          |-|  Welcome To Aitvaras Network www.aitvaras.eu   |-|
+Oct 06 14:38:37 *	-          |_|\_____________________________________________  | |
+Oct 06 14:38:37 *	-          (@)                 / ,/ \_____/ \\ ~\/~         `\|-|
+Oct 06 14:38:37 *	-           ~             ___//^~      \____/\\               (@)
+Oct 06 14:38:37 *	-                        <<<  \     __  <____/||               ~
+Oct 06 14:38:37 *	-                                  <   \ <___/||
+Oct 06 14:38:37 *	-                                     || <___//
+Oct 06 14:38:37 *	-                                     \ \/__//
+Oct 06 14:38:37 *	-                                      ~----~
+Oct 06 14:38:37 *	-                                      
+Oct 06 14:38:37 *	-  Sveiki Uzsuke i Aitvaro IRC tinklo irc.data.lt serveri ! 
+Oct 06 14:38:37 *	-  
+Oct 06 14:38:37 *	-  Serveris skirtas ramiam bendravimui. Karai, floodai, klonavimai
+Oct 06 14:38:37 *	-  ir kitoks naudojimas ne pagal paskirti nebus toleruojamas.   
+Oct 06 14:38:37 *	-  
+Oct 06 14:38:37 *	-  Tinklo taisykles galite perskaityti surinke /RULES
+Oct 06 14:38:37 *	-  
+Oct 06 14:38:37 *	-  Default Services language is Lithuanian, if you wish to use English
+Oct 06 14:38:37 *	-  change it by typing /msg NickServ SET language 2
+Oct 06 14:38:37 *	-  for more help type /msg NickServ HELP SET language
+Oct 06 14:38:37 *	- 
+Oct 06 14:38:37 *	End of /MOTD command.
+Oct 06 14:38:37 *	CR0M_xanzes_ sets mode +i on CR0M_xanzes_
+Oct 06 14:38:37 *	CR0M_xanzes_ sets mode +s on CR0M_xanzes_
+Oct 06 14:38:37 *	CR0M_xanzes_ sets mode +x on CR0M_xanzes_
+Oct 06 14:38:37 *	CR0M_xanzes_ sets mode +z on CR0M_xanzes_
+Oct 06 14:38:37 -Aitvaras-	[Prisijungimo pranešimas - Spa 06 2009] Aitvaro taisyklės: http://www.aitvaras.eu/taisykles
+Oct 06 14:38:54 *	test_irc4 :No such channel
+Oct 06 14:41:10 *	Cannot join #test (Requires keyword)
+Oct 06 14:41:16 *	Cannot join #test (Requires keyword)
+Oct 06 17:25:58 *	You are now known as mamon69
+Oct 06 17:26:18 *	test :No such nick/channel

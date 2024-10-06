@@ -1,0 +1,24 @@
+**** BEGIN LOGGING AT Sun Oct  6 13:43:23 2024
+
+Oct 06 13:43:23 *	Connecting to irc.scuttled.net (44.236.238.98:6697)
+Oct 06 13:43:25 *	* Subject: /C=US/ST=New Jersey/L=Jersey City/O=The USERTRUST Network/CN=USERTrust RSA Certification Authority
+Oct 06 13:43:25 *	* Issuer: /C=US/ST=New Jersey/L=Jersey City/O=The USERTRUST Network/CN=USERTrust RSA Certification Authority
+Oct 06 13:43:25 *	* Subject: /C=GB/ST=Greater Manchester/L=Salford/O=Sectigo Limited/CN=Sectigo RSA Domain Validation Secure Server CA
+Oct 06 13:43:25 *	* Issuer: /C=US/ST=New Jersey/L=Jersey City/O=The USERTRUST Network/CN=USERTrust RSA Certification Authority
+Oct 06 13:43:25 *	* Subject: /CN=*.scuttled.net
+Oct 06 13:43:25 *	* Issuer: /C=GB/ST=Greater Manchester/L=Salford/O=Sectigo Limited/CN=Sectigo RSA Domain Validation Secure Server CA
+Oct 06 13:43:25 *	* Certification info:
+Oct 06 13:43:25 *	  Subject:
+Oct 06 13:43:25 *	    CN=*.scuttled.net
+Oct 06 13:43:25 *	  Issuer:
+Oct 06 13:43:25 *	    C=GB
+Oct 06 13:43:25 *	    ST=Greater Manchester
+Oct 06 13:43:25 *	    L=Salford
+Oct 06 13:43:25 *	    O=Sectigo Limited
+Oct 06 13:43:25 *	    CN=Sectigo RSA Domain Validation Secure Server CA
+Oct 06 13:43:25 *	  Public key algorithm: rsaEncryption (2048 bits)
+Oct 06 13:43:25 *	  Sign algorithm sha256WithRSAEncryption
+Oct 06 13:43:25 *	  Valid since Jun  4 00:00:00 2024 GM to Jul  5 23:59:59 2025 GM
+Oct 06 13:43:25 *	* Cipher info:
+Oct 06 13:43:25 *	  Version: TLSv1.3, cipher TLS_AES_256_GCM_SHA384 (256 bits)
+Oct 06 13:43:25 *	Connection failed (* Verify E: Failed to validate hostname? (-1))

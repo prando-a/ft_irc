@@ -1,0 +1,6 @@
+T 1728218345 19*	Now talking on 22#test_irc4
+T 1728218366 19*	Now talking on 22#test_irc4
+T 1728218366 23*	CR0M_xanzes (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net23) has joined
+T 1728218396 19*	You have left channel 22#test_irc4 (24Išėjo)
+T 1728218396 24*	CR0M_xanzes (~CR0M_xanz@aitvaras-62E7FEE3.red-79-144-66.dynamicip.rima-tde.net24) has left (Išėjo)
+T 1728218398 No channel joined. Try /join #<channel>

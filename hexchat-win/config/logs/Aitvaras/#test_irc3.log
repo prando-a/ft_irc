@@ -1,0 +1,7 @@
+**** BEGIN LOGGING AT Sun Oct  6 14:27:43 2024
+
+Oct 06 14:27:43 *	Now talking on #test_irc3
+Oct 06 14:29:46 Usage: PART [<channel>] [<reason>], leaves the channel, by default the current one
+Oct 06 14:30:05 *	You have left channel #test_irc3 (Išėjo)
+**** ENDING LOGGING AT Sun Oct  6 14:30:05 2024
+

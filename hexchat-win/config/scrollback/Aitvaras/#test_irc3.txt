@@ -1,0 +1,4 @@
+T 1728217663 19*	Now talking on 22#test_irc3
+T 1728217786 Usage: PART [<channel>] [<reason>], leaves the channel, by default the current one
+T 1728217805 19*	You have left channel 22#test_irc3 (24Išėjo)
+T 1728217806 No channel joined. Try /join #<channel>

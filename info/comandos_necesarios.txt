@@ -49,6 +49,7 @@ Estructura comando:
 	Este comando permite que un usuario se una a un canal.
 
 	Sintaxis:
+		[C]		[P]
 		JOIN <#channel>
 
 	Ejemplo:
@@ -102,6 +103,7 @@ Este comando se usa para expulsar a un usuario de un canal.
 
 9. MODE (cambiar modos de usuario o canal)
 
+	[EN ft_irc SOLAMENTE APLICA A CANALES]
 	Este comando permite cambiar los modos de los usuarios o los canales.
 	Los modos son configuraciones especiales como "operador de canal" o "modo de solo lectura".
 
@@ -110,10 +112,30 @@ Este comando se usa para expulsar a un usuario de un canal.
 			MODE <nickname> <+|-mode>
 		Para un canal:
 			MODE <#channel> <+|-mode> [target]
-			
-	Ejemplo:
-		Dar privilegios de operador a un usuario en un canal:
-			MODE #general +o JohnDoe
-		Poner un canal en modo de solo lectura:
-			MODE #general +m
 
+		En ft_irc, MODE solamente acepta los formatos i, t, k, o y l.
+			- i : Activa o desactiva el acceso exclusivo por invitación a un canal
+				MODE #canal +i     o     MODE #canal -i
+			- t : Activa o desactiva el cambio de tópico exclusivo para operadores (admins)
+				MODE #canal +t     o     MODE #canal -t
+			- k : Activa o desactiva el acceso por contraseña a un canal
+				MODE #canal +k password     o     MODE #canal -k
+			- o : Concede permisos de operador a un usuario
+				MODE #canal +o user     o     MODE #canal -o user
+			- l : Limita el número de usuarios que puede tener un canal
+				MODE #canal +l 10     o     MODE #canal -l
+
+
+
+X. PRIVMSG (enviar mensaje privado)
+
+	Este comando permite enviar un mensaje privado a otro usuario o un mensaje a un canal.
+
+	Sintaxis:
+		PRIVMSG <nickname|#channel> :<message>
+
+	Ejemplo:
+		Enviar un mensaje a un usuario:
+			PRIVMSG JohnDoe :Hello, how are you?
+		Enviar un mensaje a un canal:
+			PRIVMSG #general :Hello everyone in the channel!
