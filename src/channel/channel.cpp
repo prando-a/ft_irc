@@ -27,8 +27,20 @@ void channel::setOperator(unsigned long uID)
 	this->opList.push_back(uID);
 }
 
-void channel::setTopic(std::string topic)
+void channel::setTopic(std::string topic, unsigned long uID)
 {
+	if (topic.empty())
+		throw "Error: Empty topic";
+	if (this->topicLock)
+	{
+		for (int i = 0 ; i < this->opList.size() ; i++)
+		{
+			if (this->opList[i] == uID)
+				break;
+			if (i == this->opList.size() - 1)
+				throw "Error: Topic is locked";
+		}
+	}
 	this->topic = topic;
 }
 

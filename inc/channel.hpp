@@ -24,7 +24,7 @@ class channel
 		std::string					name;
 		std::string					topic;
 		std::string					key;
-		std::vector<unsigned long>	clientList;
+		std::vector<unsigned long>	uList;
 		std::vector<unsigned long>	opList;
 		int							usrLimit;
 		bool 						inviteOnly;
