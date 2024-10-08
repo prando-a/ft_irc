@@ -33,7 +33,7 @@ class channel
 	public:
 		channel();
 		void		setOperator(unsigned long);
-		void		setTopic(std::string);
+		void		setTopic(std::string, unsigned long);
 		~channel();
 		channel(const channel &src);
 		channel &operator=(const channel &src);

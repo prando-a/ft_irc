@@ -40954,3 +40954,99 @@ Oct 06 23:11:47 *	Looking up localhost
 Oct 06 23:11:47 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
 Oct 06 23:11:49 *	Connected. Now logging in.
 Oct 06 23:12:19 *	Disconnected ()
+Oct 08 13:02:03 *	Looking up localhost
+Oct 08 13:02:03 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:02:05 *	Connected. Now logging in.
+Oct 08 13:02:14 *	Disconnected (Remote host closed socket)
+Oct 08 13:02:24 Cycling to next server in ft_irc...
+Oct 08 13:02:24 *	Disconnected ()
+Oct 08 13:02:24 *	Looking up localhost
+Oct 08 13:02:24 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:02:28 *	Connection failed (Connection refused)
+Oct 08 13:02:38 Cycling to next server in ft_irc...
+Oct 08 13:02:38 *	Disconnected ()
+Oct 08 13:02:38 *	Looking up localhost
+Oct 08 13:02:38 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:02:42 *	Connection failed (Connection refused)
+Oct 08 13:02:52 Cycling to next server in ft_irc...
+Oct 08 13:02:52 *	Disconnected ()
+Oct 08 13:02:52 *	Looking up localhost
+Oct 08 13:02:52 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:02:56 *	Connection failed (Connection refused)
+Oct 08 13:03:06 Cycling to next server in ft_irc...
+Oct 08 13:03:06 *	Disconnected ()
+Oct 08 13:03:06 *	Looking up localhost
+Oct 08 13:03:06 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:03:11 *	Connection failed (Connection refused)
+Oct 08 13:03:21 Cycling to next server in ft_irc...
+Oct 08 13:03:21 *	Disconnected ()
+Oct 08 13:03:21 *	Looking up localhost
+Oct 08 13:03:21 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:03:23 *	Connected. Now logging in.
+Oct 08 13:03:39 No channel joined. Try /join #<channel>
+Oct 08 13:04:26 *	Disconnected (Remote host closed socket)
+Oct 08 13:04:37 Cycling to next server in ft_irc...
+Oct 08 13:04:37 *	Disconnected ()
+Oct 08 13:04:37 *	Looking up localhost
+Oct 08 13:04:37 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:04:39 *	Connected. Now logging in.
+Oct 08 13:04:47 *	Disconnected (Remote host closed socket)
+Oct 08 13:04:57 Cycling to next server in ft_irc...
+Oct 08 13:04:57 *	Disconnected ()
+Oct 08 13:04:57 *	Looking up localhost
+Oct 08 13:04:57 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:05:01 *	Connection failed (Connection refused)
+Oct 08 13:05:11 Cycling to next server in ft_irc...
+Oct 08 13:05:11 *	Disconnected ()
+Oct 08 13:05:11 *	Looking up localhost
+Oct 08 13:05:11 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:05:13 *	Connected. Now logging in.
+Oct 08 13:06:59 *	Disconnected (Remote host closed socket)
+Oct 08 13:07:09 Cycling to next server in ft_irc...
+Oct 08 13:07:09 *	Disconnected ()
+Oct 08 13:07:09 *	Looking up localhost
+Oct 08 13:07:09 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:07:13 *	Connection failed (Connection refused)
+Oct 08 13:07:23 Cycling to next server in ft_irc...
+Oct 08 13:07:23 *	Disconnected ()
+Oct 08 13:07:23 *	Looking up localhost
+Oct 08 13:07:23 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:07:28 *	Connection failed (Connection refused)
+Oct 08 13:07:38 Cycling to next server in ft_irc...
+Oct 08 13:07:38 *	Disconnected ()
+Oct 08 13:07:38 *	Looking up localhost
+Oct 08 13:07:38 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:07:42 *	Connection failed (Connection refused)
+Oct 08 13:07:52 Cycling to next server in ft_irc...
+Oct 08 13:07:52 *	Disconnected ()
+Oct 08 13:07:52 *	Looking up localhost
+Oct 08 13:07:52 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:07:54 *	Connected. Now logging in.
+Oct 08 13:08:17 *	Disconnected (Remote host closed socket)
+Oct 08 13:08:27 Cycling to next server in ft_irc...
+Oct 08 13:08:27 *	Disconnected ()
+Oct 08 13:08:27 *	Looking up localhost
+Oct 08 13:08:27 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:08:29 *	Connected. Now logging in.
+Oct 08 13:12:16 *	Disconnected (Remote host closed socket)
+Oct 08 13:12:26 Cycling to next server in ft_irc...
+Oct 08 13:12:26 *	Disconnected ()
+Oct 08 13:12:26 *	Looking up localhost
+Oct 08 13:12:26 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:12:28 *	Connected. Now logging in.
+Oct 08 13:13:52 *	Disconnected (Remote host closed socket)
+Oct 08 13:14:02 Cycling to next server in ft_irc...
+Oct 08 13:14:02 *	Disconnected ()
+Oct 08 13:14:02 *	Looking up localhost
+Oct 08 13:14:02 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:14:06 *	Connection failed (Connection refused)
+Oct 08 13:14:16 Cycling to next server in ft_irc...
+Oct 08 13:14:16 *	Disconnected ()
+Oct 08 13:14:16 *	Looking up localhost
+Oct 08 13:14:16 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:14:20 *	Connection failed (Connection refused)
+Oct 08 13:14:30 Cycling to next server in ft_irc...
+Oct 08 13:14:30 *	Disconnected ()
+Oct 08 13:14:30 *	Looking up localhost
+Oct 08 13:14:30 *	Connecting to UNIDAD-AURORA-448 (::1:6667)
+Oct 08 13:14:34 *	Connection failed (Connection refused)

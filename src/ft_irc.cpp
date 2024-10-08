@@ -50,7 +50,13 @@ void process_command(std::string buffer, server& server, int socket)
 		}
 		catch (const char *e)
 		{
-			send(socket, e, strlen(e), MSG_NOSIGNAL);
+			std::cout << e << std::endl;
+			
+			ssize_t sent = send(socket, e, strlen(e), MSG_NOSIGNAL);
+            if (sent < 0)
+            {
+                perror("Error al enviar el mensaje de error al cliente");
+            }
 		}
 	}
 }
@@ -61,7 +67,7 @@ void handle_sigpipe(int sig) {
 
 int miniserv()
 {
-	signal(SIGPIPE, handle_sigpipe);
+//	signal(SIGPIPE, handle_sigpipe);
 	server server("password", 6667);
     int server_fd, new_socket;
     struct sockaddr_in address;
