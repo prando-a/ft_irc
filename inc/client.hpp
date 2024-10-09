@@ -29,5 +29,5 @@ class client
 		client(const client &src);
 		client &operator=(const client &src);
 };
-
+ 
 #endif

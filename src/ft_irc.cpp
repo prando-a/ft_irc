@@ -39,13 +39,11 @@ std::vector<std::string> split(std::string str)
 
 void process_command(std::string buffer, server& server, int socket)
 {
-	std::vector<std::string> params = split(buffer);
-	for (size_t i = 0; i < params.size(); i++)
-	{
-		std::cout << "Recibido: " << params[i] << std::endl;
+
+		std::cout << "Recibido: " << buffer << std::endl;
 		try
 		{
-			command cmd(params[i]);
+			command cmd(buffer);
 			server.useCommand(cmd);
 		}
 		catch (const char *e)
@@ -58,7 +56,6 @@ void process_command(std::string buffer, server& server, int socket)
                 perror("Error al enviar el mensaje de error al cliente");
             }
 		}
-	}
 }
 
 void handle_sigpipe(int sig) {
