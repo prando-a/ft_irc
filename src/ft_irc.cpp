@@ -27,6 +27,10 @@ recv, signal, sigaction, lseek, fstat, fcntl, poll
 
 */
 
+#define PORT 6667
+#define MAX_CLIENTS 100
+#define BUFFER_SIZE 1024
+
 std::vector<std::string> split(std::string str)
 {
 	std::vector<std::string> params;
@@ -58,89 +62,114 @@ void process_command(std::string buffer, server& server, int socket)
 		}
 }
 
-void handle_sigpipe(int sig) {
-    std::cout << "SIGPIPE received: " << sig << std::endl;
-}
-
-int miniserv()
-{
-//	signal(SIGPIPE, handle_sigpipe);
-	server server("password", 6667);
+int multiserv() {
+    server server("6262", 32332);
     int server_fd, new_socket;
     struct sockaddr_in address;
     int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[1024] = {0};
+    socklen_t addrlen = sizeof(address);
+    char buffer[BUFFER_SIZE] = {0};
 
-    // Crear el socket
-    server_fd = socket(AF_INET, SOCK_STREAM, 0); //PERMITIDA
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); //PERMITIDA
+    // Crear socket de servidor
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        perror("Error al crear el socket");
+        exit(EXIT_FAILURE);
+    }
 
-    // Configurar la dirección y el puerto
+    // Reutilizar dirección y puerto
+    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    // Configurar la dirección y puerto del servidor
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(6667);  // El puerto que quieras usar //PERMITIDA
+    address.sin_addr.s_addr = inet_addr("127.0.0.1");
+    address.sin_port = htons(PORT);
 
-    // Bind
-    bind(server_fd, (struct sockaddr *)&address, sizeof(address)); //PERMITIDA
+    // Enlazar socket
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        perror("Error en bind");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
 
-    // Listen
-    listen(server_fd, 10); //PERMITIDA
+    // Poner el servidor en modo escucha
+    if (listen(server_fd, 10) < 0) {
+        perror("Error en listen");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
 
-    std::cout << "Servidor escuchando en el puerto 6667..." << std::endl; //NO PERMITIDA
+    std::cout << "Servidor escuchando en el puerto " << PORT << "..." << std::endl;
 
-    // Configurar poll
-    struct pollfd fds[100];
-    int nfds = 1;
-    fds[0].fd = server_fd;
-    fds[0].events = POLLIN;
+    // Array de clientes
+    int client_socket[MAX_CLIENTS] = {0};
+    fd_set readfds;
 
-    while (1)
-	{
-        int poll_count = poll(fds, nfds, -1);
-        if (poll_count < 0)
-		{
-            perror("poll error");
-            exit(EXIT_FAILURE);
+    // Bucle principal
+    while (true) {
+        // Limpiar el conjunto de descriptores
+        FD_ZERO(&readfds);
+
+        // Agregar el socket del servidor al conjunto
+        FD_SET(server_fd, &readfds);
+        int max_sd = server_fd;
+
+        // Agregar los sockets de clientes al conjunto
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            int sd = client_socket[i];
+            if (sd > 0) {
+                FD_SET(sd, &readfds);
+            }
+            if (sd > max_sd) {
+                max_sd = sd;
+            }
         }
 
-        for (int i = 0; i < nfds; i++)
-		{
-            if (fds[i].revents & POLLIN) {
-                if (fds[i].fd == server_fd)
-				{
-                    // Aceptar una nueva conexión
-                    new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
-                    if (new_socket < 0) {
-                        perror("Error al aceptar la conexión");
-                        exit(EXIT_FAILURE);
-                    }
-                    // Añadir el nuevo socket al array de poll
-                    fds[nfds].fd = new_socket;
-                    fds[nfds].events = POLLIN;
-                    nfds++;
-                    std::cout << "Nueva conexión aceptada" << std::endl;
+        // Esperar actividad en alguno de los sockets
+        int activity = select(max_sd + 1, &readfds, nullptr, nullptr, nullptr);
+        if ((activity < 0) && (errno != EINTR)) {
+            perror("Error en select");
+        }
+
+        // Si hay una nueva conexión
+        if (FD_ISSET(server_fd, &readfds)) {
+            new_socket = accept(server_fd, (struct sockaddr *)&address, &addrlen);
+            if (new_socket < 0) {
+                perror("Error al aceptar la conexión");
+                continue;
+            }
+            std::cout << "Nueva conexión aceptada: FD " << new_socket << std::endl;
+
+            // Añadir nuevo cliente a la lista
+            for (int i = 0; i < MAX_CLIENTS; i++) {
+                if (client_socket[i] == 0) {
+                    client_socket[i] = new_socket;
+                    std::cout << "Agregando a la lista de clientes en la posición " << i << std::endl;
+                    break;
                 }
-				else
-				{
-                    // Leer datos del cliente
-                    memset(buffer, 0, sizeof(buffer));
-                    int valread = read(fds[i].fd, buffer, 1024);
-                    if (valread > 0)
-					{
-                        std::vector<std::string> commands = split(buffer);
-						for (size_t i = 0; i < commands.size(); i++)
-						{
-							process_command(commands[i], server, fds[i].fd);
-						}
-                    }
-					else
-					{
-                        // Cerrar la conexión
-                        std::cout << "Conexión cerrada por el cliente." << std::endl;
-                        close(fds[i].fd);
-                        fds[i] = fds[nfds - 1];
-                        nfds--;
+            }
+        }
+
+        // Leer datos de los clientes
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            int sd = client_socket[i];
+
+            // Si el socket está activo
+            if (FD_ISSET(sd, &readfds)) {
+                // Leer datos del cliente
+                memset(buffer, 0, sizeof(buffer));
+                int valread = read(sd, buffer, BUFFER_SIZE);
+                if (valread == 0) {
+                    // Si se recibe 0, el cliente se desconecta
+                    std::cout << "Cliente desconectado: FD " << sd << std::endl;
+                    close(sd);
+                    client_socket[i] = 0;
+                } else {
+                    // Procesar el mensaje recibido
+                    buffer[valread] = '\0';
+                    std::vector<std::string> commands = split(buffer);
+                    for (const auto& command_str : commands) {
+                        process_command(command_str, server, sd);
                     }
                 }
             }
@@ -171,7 +200,13 @@ int main(int argc, char **argv)
 	catch (const char *e)
 		{ std::cerr << e << "\n"; return (1); }
 
-	miniserv();
+	multiserv();
 
 	return (0);
 }
+
+                        //std::vector<std::string> commands = split(buffer);
+						//for (size_t i = 0; i < commands.size(); i++)
+						//{
+						//	process_command(commands[i], server, fds[i].fd);
+						//}

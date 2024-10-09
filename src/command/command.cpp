@@ -14,7 +14,7 @@
 
 command::command(std::string cmd)
 {
-	if (cmd.empty()) return ; //throw "empty", este throw debe no hacer nada
+	if (cmd.empty() || cmd.length() <= 0) throw "\n";
 	setMembers(cmd);
 
 	//IMPRIMIR PARAMETROS (DEBUG)
@@ -71,7 +71,7 @@ int command::setType(std::string cmd)
 		"CAP" 
 	};
 
-	for (int i = 0; i < sizeof(commands); i++)
+	for (int i = 0; i < 11; i++)
 	{
 		if (commands[i] == cmd)
 			return (i);
