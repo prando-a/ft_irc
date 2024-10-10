@@ -13,6 +13,17 @@
 #include "../inc/ft_irc.hpp"
 
 
+int sToPort(std::string port)
+{
+    for (size_t i = 0; i < port.length(); i++)
+    {
+        if (!isdigit(port[i]))
+            throw "Invalid port number.";
+    }
+    return (atoi(port.c_str()));
+}
+
+
 /*
 
 FUNCIONES PERMITIDAS
@@ -27,8 +38,7 @@ recv, signal, sigaction, lseek, fstat, fcntl, poll
 
 */
 
-#define PORT 6667
-#define MAX_CLIENTS 100
+#define MAX_CLIENTS 1024
 #define BUFFER_SIZE 1024
 
 std::vector<std::string> split(std::string str)
@@ -43,76 +53,42 @@ std::vector<std::string> split(std::string str)
 
 void process_command(std::string buffer, server& server, int socket)
 {
-
-		std::cout << "Recibido: " << buffer << std::endl;
-		try
-		{
-			command cmd(buffer);
-			server.useCommand(cmd);
-		}
-		catch (const char *e)
-		{
-			std::cout << e << std::endl;
-			
-			ssize_t sent = send(socket, e, strlen(e), MSG_NOSIGNAL);
-            if (sent < 0)
-            {
-                perror("Error al enviar el mensaje de error al cliente");
-            }
-		}
+	std::cout << "Recibido: " << buffer << std::endl;
+	try
+	{
+		command cmd(buffer, socket);
+		server.useCommand(cmd);
+	}
+	catch (const char *e)
+	{	
+        std::cout << "Enviando a: " << socket << std::endl;
+		ssize_t sent = send(socket, e, strlen(e), MSG_NOSIGNAL);
+        if (sent < 0)
+        {
+            perror("ESTO NO DEBERÍA SALIR !!!!! ->");
+        }
+	}
 }
 
-int multiserv() {
-    server server("6262", 32332);
-    int server_fd, new_socket;
-    struct sockaddr_in address;
-    int opt = 1;
-    socklen_t addrlen = sizeof(address);
-    char buffer[BUFFER_SIZE] = {0};
-
-    // Crear socket de servidor
-    server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_fd < 0) {
-        perror("Error al crear el socket");
-        exit(EXIT_FAILURE);
-    }
-
-    // Reutilizar dirección y puerto
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-
-    // Configurar la dirección y puerto del servidor
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr("127.0.0.1");
-    address.sin_port = htons(PORT);
-
-    // Enlazar socket
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-        perror("Error en bind");
-        close(server_fd);
-        exit(EXIT_FAILURE);
-    }
-
-    // Poner el servidor en modo escucha
-    if (listen(server_fd, 10) < 0) {
-        perror("Error en listen");
-        close(server_fd);
-        exit(EXIT_FAILURE);
-    }
-
-    std::cout << "Servidor escuchando en el puerto " << PORT << "..." << std::endl;
+int multiserv()
+{
+    server server("6262", 6667);
+    char buffer[BUFFER_SIZE];
+    int new_socket;
 
     // Array de clientes
     int client_socket[MAX_CLIENTS] = {0};
     fd_set readfds;
 
     // Bucle principal
-    while (true) {
+    while (true)
+    {
         // Limpiar el conjunto de descriptores
         FD_ZERO(&readfds);
 
         // Agregar el socket del servidor al conjunto
-        FD_SET(server_fd, &readfds);
-        int max_sd = server_fd;
+        FD_SET(server.getSocket(), &readfds);
+        int max_sd = server.getSocket();
 
         // Agregar los sockets de clientes al conjunto
         for (int i = 0; i < MAX_CLIENTS; i++) {
@@ -132,17 +108,15 @@ int multiserv() {
         }
 
         // Si hay una nueva conexión
-        if (FD_ISSET(server_fd, &readfds)) {
-            new_socket = accept(server_fd, (struct sockaddr *)&address, &addrlen);
-            if (new_socket < 0) {
-                perror("Error al aceptar la conexión");
-                continue;
-            }
+        if (FD_ISSET(server.getSocket(), &readfds))
+        {
+            new_socket = server.acceptConnection();
             std::cout << "Nueva conexión aceptada: FD " << new_socket << std::endl;
 
             // Añadir nuevo cliente a la lista
             for (int i = 0; i < MAX_CLIENTS; i++) {
-                if (client_socket[i] == 0) {
+                if (client_socket[i] == 0)
+                {
                     client_socket[i] = new_socket;
                     std::cout << "Agregando a la lista de clientes en la posición " << i << std::endl;
                     break;
@@ -151,22 +125,26 @@ int multiserv() {
         }
 
         // Leer datos de los clientes
-        for (int i = 0; i < MAX_CLIENTS; i++) {
+        for (int i = 0; i < MAX_CLIENTS; i++)
+        {
             int sd = client_socket[i];
 
             // Si el socket está activo
-            if (FD_ISSET(sd, &readfds)) {
+            if (FD_ISSET(sd, &readfds))
+            {
                 // Leer datos del cliente
                 memset(buffer, 0, sizeof(buffer));
                 int valread = read(sd, buffer, BUFFER_SIZE);
-                if (valread == 0) {
+                if (valread == 0)
+                {
                     // Si se recibe 0, el cliente se desconecta
                     std::cout << "Cliente desconectado: FD " << sd << std::endl;
                     close(sd);
                     client_socket[i] = 0;
-                } else {
+                }
+                else
+                {
                     // Procesar el mensaje recibido
-                    buffer[valread] = '\0';
                     std::vector<std::string> commands = split(buffer);
                     for (const auto& command_str : commands) {
                         process_command(command_str, server, sd);
@@ -175,8 +153,6 @@ int multiserv() {
             }
         }
     }
-
-    close(server_fd);
     return 0;
 }
 
@@ -186,7 +162,7 @@ void command_tester(void)
 	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
 	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
 	{
-		command cmd(buffer);
+		command cmd(buffer, 0);
 	}
 }
 
@@ -198,7 +174,7 @@ int main(int argc, char **argv)
 		//	throw "Error: No arguments given.";
 	}
 	catch (const char *e)
-		{ std::cerr << e << "\n"; return (1); }
+		{ std::cerr << RED << e << "\n" << RESET; return (1); }
 
 	multiserv();
 

@@ -72,6 +72,10 @@ void command::parse(void)
 				break;
 		case CAP:
 			break;
+		case PASS:
+			checkArgC(1, 1);
+			checkTrailing(NO);
+				break;
 		default:
 			throw "Error: Invalid command \n";
 			break;

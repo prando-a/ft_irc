@@ -18,13 +18,21 @@
 class client
 {
 	private:
-		int 						socket_fd;
+		int 						socket;
+		struct sockaddr_in			address;
+		socklen_t					addr_len;
+		char						ip_str[INET_ADDRSTRLEN];
+		struct hostent*				host_entry;
+
 		unsigned long				uID;
+		bool						isRegistered;
 		std::string					nick;
 		std::string					realname;
 
+		void						setAddress(void);
+
 	public:
-		client();
+		client(int);
 		~client();
 		client(const client &src);
 		client &operator=(const client &src);

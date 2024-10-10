@@ -40,3 +40,5 @@ T 1728236472 22*	Topic for 22#test is: yaya
 T 1728236472 22*	Topic for 22#test set by 26CR0M_xanzes (24Sun Oct  6 19:41:07 2024)
 T 1728236483 22*	Topic for 22#test is: yaya
 T 1728236483 22*	Topic for 22#test set by 26CR0M_xanzes (24Sun Oct  6 19:41:07 2024)
+T 1728436677 20*	Disconnected (20No such device or address)
+T 1728436677 20*	Disconnected (20No such device or address)

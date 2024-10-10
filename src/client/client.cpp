@@ -12,8 +12,16 @@
 
 #include "../../inc/client.hpp"
 
-client::client()
+client::client(int socket) : socket(socket)
 {
+	setAddress();
+}
+
+void client::setAddress(void)
+{
+	if (getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len) == -1)
+	host_entry = gethostbyaddr(&address.sin_addr, sizeof(address.sin_addr), AF_INET);
+	inet_ntop(AF_INET, &address.sin_addr, ip_str, INET_ADDRSTRLEN);
 }
 
 client::~client()

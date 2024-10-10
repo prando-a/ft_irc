@@ -1,1 +1,2 @@
 T 1728225440 19*	Now talking on 22#test2
+T 1728436677 20*	Disconnected (20No such device or address)

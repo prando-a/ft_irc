@@ -15,11 +15,13 @@
 void server::cmdNICK(command cmd)
 {
 	std::cout << "\tfuncion NICK" << std::endl;
+	std::cout << "socket no." << cmd.getSock() << std::endl;
 }
 
 void server::cmdUSER(command cmd)
 {
 	std::cout << "\tfuncion USER" << std::endl;
+	std::cout << "socket no." << cmd.getSock() << std::endl;
 }
 
 void server::cmdQUIT(command cmd)
@@ -64,6 +66,13 @@ void server::cmdMODE(command cmd)
 
 void server::cmdCAP(command cmd)
 {
+	std::cout << "socket no." << cmd.getSock() << std::endl;
+	std::cout << send(cmd.getSock(), "JDNJDNKWMNDWKDMKWDMWKLDMWDLKMDWLMDW", 36, 0) << std::endl;
+	perror("send");
+}
+
+void server::cmdPASS(command cmd)
+{
 	(void)cmd;
-	std::cout << "\tfuncion CAP" << std::endl;
+	std::cout << "\tfuncion PASS" << std::endl;
 }

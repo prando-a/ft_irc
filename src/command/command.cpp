@@ -12,11 +12,12 @@
 
 #include "../../inc/command.hpp"
 
-command::command(std::string cmd)
+command::command(std::string cmd, int socket)
 {
 	if (cmd.empty() || cmd.length() <= 0) throw "\n";
-	setMembers(cmd);
+	setMembers(cmd, socket);
 
+	std::cout << "Socket del comando: " << this->getSock() << std::endl;
 	//IMPRIMIR PARAMETROS (DEBUG)
 	// --------------------------------------------------------
 	//std::cout << "\nCommand: \n";
@@ -31,9 +32,9 @@ command::command(std::string cmd)
 	parse();
 }
 
-void command::setMembers(const std::string& str)
+void command::setMembers(const std::string& str, int socket)
 {
-	this->raw = str;
+	this->socket = socket;
 	this->has_trailing = false;
 	this->trailing = "";
 	std::stringstream ss(str);
@@ -68,10 +69,11 @@ int command::setType(std::string cmd)
 		"INVITE",
 		"TOPIC",
 		"MODE",
-		"CAP" 
+		"CAP",
+		"PASS"
 	};
 
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 12; i++)
 	{
 		if (commands[i] == cmd)
 			return (i);
@@ -79,13 +81,11 @@ int command::setType(std::string cmd)
 	return (INVALID);
 }
 
-int command::getType(void) 							{ return (this->type); 		}
+int 						command::getType(void) 		{ return (this->type); 		}
+std::vector<std::string>	command::getParams(void)	{ return (this->params);	}
+std::string					command::getTrailing(void)	{ return (this->trailing);	}
+int							command::getSock(void)		{ return (this->socket);	}
 
-std::vector<std::string> command::getParams(void)	{ return (this->params);	}
-
-std::string command::getTrailing(void)				{ return (this->trailing);	}
-
-std::string command::getRaw(void)					{ return (this->raw);		}
 
 command::~command(){}
 

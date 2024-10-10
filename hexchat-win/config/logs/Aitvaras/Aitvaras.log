@@ -146,3 +146,101 @@ Oct 06 14:41:10 *	Cannot join #test (Requires keyword)
 Oct 06 14:41:16 *	Cannot join #test (Requires keyword)
 Oct 06 17:25:58 *	You are now known as mamon69
 Oct 06 17:26:18 *	test :No such nick/channel
+Oct 09 03:17:57 *	Disconnected (No such device or address)
+Oct 09 03:17:57 *	Disconnected (No such device or address)
+Oct 09 03:18:07 *	Looking up irc.data.lt
+Oct 09 03:18:07 *	Looking up irc.data.lt
+Oct 09 03:18:18 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:18 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:28 Cycling to next server in Aitvaras...
+Oct 09 03:18:28 *	Disconnected ()
+Oct 09 03:18:28 *	Looking up irc.vub.lt
+Oct 09 03:18:28 Cycling to next server in Aitvaras...
+Oct 09 03:18:28 *	Disconnected ()
+Oct 09 03:18:28 *	Looking up irc.vub.lt
+Oct 09 03:18:28 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:28 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:38 Cycling to next server in Aitvaras...
+Oct 09 03:18:38 *	Disconnected ()
+Oct 09 03:18:38 *	Looking up irc.omicron.lt
+Oct 09 03:18:38 Cycling to next server in Aitvaras...
+Oct 09 03:18:38 *	Disconnected ()
+Oct 09 03:18:38 *	Looking up irc.omicron.lt
+Oct 09 03:18:38 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:38 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:48 Cycling to next server in Aitvaras...
+Oct 09 03:18:48 *	Disconnected ()
+Oct 09 03:18:48 *	Looking up irc.data.lt
+Oct 09 03:18:48 Cycling to next server in Aitvaras...
+Oct 09 03:18:48 *	Disconnected ()
+Oct 09 03:18:48 *	Looking up irc.data.lt
+Oct 09 03:18:59 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:18:59 *	Unknown host. Maybe you misspelled it?
+Oct 09 03:19:09 Cycling to next server in Aitvaras...
+Oct 09 03:19:09 *	Disconnected ()
+Oct 09 03:19:09 *	Looking up irc.vub.lt
+Oct 09 03:19:09 Cycling to next server in Aitvaras...
+Oct 09 03:19:09 *	Disconnected ()
+Oct 09 03:19:09 *	Looking up irc.vub.lt
+Oct 09 03:19:16 *	Connecting to irc.vub.lt (193.219.94.176:6668)
+Oct 09 03:19:16 *	Connecting to irc.vub.lt (193.219.94.176:6668)
+Oct 09 03:19:37 *	Connection failed (Connection timed out)
+Oct 09 03:19:37 *	Connection failed (Connection timed out)
+Oct 09 03:19:47 Cycling to next server in Aitvaras...
+Oct 09 03:19:47 *	Disconnected ()
+Oct 09 03:19:47 *	Looking up irc.omicron.lt
+Oct 09 03:19:47 Cycling to next server in Aitvaras...
+Oct 09 03:19:47 *	Disconnected ()
+Oct 09 03:19:47 *	Looking up irc.omicron.lt
+Oct 09 03:19:48 *	Connecting to irc.omicron.lt (52.178.150.187:6697)
+Oct 09 03:19:48 *	Connecting to irc.omicron.lt (52.178.150.187:6697)
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Subject: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:48 *	* Issuer: /C=LT/ST=Kaunas/L=Kaunas/O=Aitvaras/OU=IRCd
+Oct 09 03:19:49 *	* Certification info:
+Oct 09 03:19:49 *	  Subject:
+Oct 09 03:19:49 *	    C=LT
+Oct 09 03:19:49 *	    ST=Kaunas
+Oct 09 03:19:49 *	    L=Kaunas
+Oct 09 03:19:49 *	    O=Aitvaras
+Oct 09 03:19:49 *	    OU=IRCd
+Oct 09 03:19:49 *	  Issuer:
+Oct 09 03:19:49 *	    C=LT
+Oct 09 03:19:49 *	    ST=Kaunas
+Oct 09 03:19:49 *	    L=Kaunas
+Oct 09 03:19:49 *	    O=Aitvaras
+Oct 09 03:19:49 *	    OU=IRCd
+Oct 09 03:19:49 *	  Public key algorithm: rsaEncryption (1024 bits)
+Oct 09 03:19:49 *	  Sign algorithm sha256WithRSAEncryption
+Oct 09 03:19:49 *	  Valid since Aug 28 15:23:13 2020 GM to Aug 28 15:23:13 2021 GM
+Oct 09 03:19:49 *	* Cipher info:
+Oct 09 03:19:49 *	  Version: TLSv1.2, cipher AES256-GCM-SHA384 (256 bits)
+Oct 09 03:19:49 *	Connection failed (certificate has expired.? (10))
+Oct 09 03:19:49 *	* Certification info:
+Oct 09 03:19:49 *	  Subject:
+Oct 09 03:19:49 *	    C=LT
+Oct 09 03:19:49 *	    ST=Kaunas
+Oct 09 03:19:49 *	    L=Kaunas
+Oct 09 03:19:49 *	    O=Aitvaras
+Oct 09 03:19:49 *	    OU=IRCd
+Oct 09 03:19:49 *	  Issuer:
+Oct 09 03:19:49 *	    C=LT
+Oct 09 03:19:49 *	    ST=Kaunas
+Oct 09 03:19:49 *	    L=Kaunas
+Oct 09 03:19:49 *	    O=Aitvaras
+Oct 09 03:19:49 *	    OU=IRCd
+Oct 09 03:19:49 *	  Public key algorithm: rsaEncryption (1024 bits)
+Oct 09 03:19:49 *	  Sign algorithm sha256WithRSAEncryption
+Oct 09 03:19:49 *	  Valid since Aug 28 15:23:13 2020 GM to Aug 28 15:23:13 2021 GM
+Oct 09 03:19:49 *	* Cipher info:
+Oct 09 03:19:49 *	  Version: TLSv1.2, cipher AES256-GCM-SHA384 (256 bits)
+Oct 09 03:19:49 *	Connection failed (certificate has expired.? (10))
