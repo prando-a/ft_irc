@@ -22,7 +22,7 @@ $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.cpp
 	@mkdir -p $(OBJ_FOLDER)/channel
 	@mkdir -p $(OBJ_FOLDER)/client
 	@mkdir -p $(OBJ_FOLDER)/server
-	c++ $(FLAGS) -g -c $< -o $@
+	c++ $(FLAGS) -std=c++98 -g -c $< -o $@
 
 re: fclean all
 

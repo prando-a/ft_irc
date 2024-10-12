@@ -39,26 +39,24 @@ enum commandErr
 class command
 {
 	private:
-		int							socket;
 		int							type;
 		std::vector<std::string>	params;
 		bool						has_trailing;
 		std::string					trailing;
-		void						setMembers(const std::string&, int);
+		void						setMembers(const std::string&);
 		int 						setType(std::string);
-		void						parse(void);
 		void						checkArgC(int, int);
 		void						checkTrailing(int);
 
 	public:
-		command(std::string, int);
-		command(const command &src);
-		command &operator=(const command &src);
-		~command();
+		command(std::string);
+		void						parse(void);
 		int							getType(void);
 		std::vector<std::string>	getParams(void);
 		std::string					getTrailing(void);
-		int							getSock(void);
+		command(const command &src);
+		command &operator=(const command &src);
+		~command();
 };
 
 # endif

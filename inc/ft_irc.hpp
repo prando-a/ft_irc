@@ -14,7 +14,9 @@
 # define IRC_H
 
 # include <iostream>
-# include <cstring>
+# include <cstdio>
+# include <string>
+# include <string.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include <netdb.h>
@@ -26,7 +28,7 @@
 # include <poll.h>
 # include <fcntl.h>
 # include <signal.h>
-
+# include <cerrno>
 
 # define RED     	"\x1b[31m"
 # define GREEN   	"\x1b[32m"
@@ -55,6 +57,59 @@ enum commandType
 	PASS,
 	INVALID = -1
 };
+
+enum IrcErrCode {
+
+     // Respuestas generales de error
+    ERR_UNKNOWNCOMMAND = 421, // <command> :Unknown command
+	ERR_TOOMANYTARGETS = 407, // <target> :<error code> recipients. <abort message>
+    ERR_NEEDMOREPARAMS = 461, // <command> :Not enough parameters
+    ERR_NOTREGISTERED = 451, // :You have not registered
+    ERR_CHANOPRIVSNEEDED = 482, // <channel> :You're not channel operator
+    ERR_NOTONCHANNEL = 442,  // <channel> :You're not on that channel
+    ERR_USERNOTINCHANNEL = 441, // <nick> <channel> :They aren't on that channel // error al echar a alguien que no está en el canal
+    ERR_NOSUCHNICK = 401,    // <nickname> :No such nick/channel
+    ERR_NOSUCHCHANNEL = 403, // <channel> :No such channel
+    ERR_UNKNOWNMODE = 472,   // <char> :is unknown mode char to me for <channel>
+    ERR_ALREADYREGISTRED = 462, // :You may not reregister
+    ERR_NICKNAMEINUSE = 433, // <nick> :Nickname is already in use
+
+
+    RPL_TOPIC = 332,         // <channel> :<topic> // éxito al unirse a un canal
+    // Respuestas básicas
+    RPL_WELCOME = 001,       // :Welcome to the Internet Relay Network <nick>!<user>@<host>
+    RPL_YOURHOST = 002,      // :Your host is <servername>, running version <version>
+    RPL_CREATED = 003,       // :This server was created <date>
+    RPL_MYINFO = 004,        // <servername> <version> <available user modes> <available channel modes>
+    RPL_BOUNCE = 005,        // :Try server <server name>, port <port number>
+
+    // Respuestas al comando JOIN
+    RPL_NAMREPLY = 353,      // = <channel> :<nick> *( " " <nick> )
+    RPL_ENDOFNAMES = 366,    // <channel> :End of /NAMES list
+
+
+
+    // Respuestas al comando PRIVMSG/NOTICE
+
+    ERR_CANNOTSENDTOCHAN = 404, // <channel> :Cannot send to channel
+    ERR_NOTEXTTOSEND = 412,  // :No text to send
+
+    // Respuestas al comando NICK
+    ERR_NONICKNAMEGIVEN = 431, // :No nickname given
+    ERR_ERRONEUSNICKNAME = 432, // <nick> :Erroneous nickname
+
+
+    // Respuestas al comando USER
+
+
+
+
+    // Respuestas al comando MODE
+    RPL_CHANNELMODEIS = 324, // <channel> <mode>
+   
+    ERR_USERSDONTMATCH = 502 // :Cannot change mode for other users
+};
+
 
 class server;
 class channel;

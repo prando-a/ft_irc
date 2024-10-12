@@ -14,6 +14,9 @@
 
 client::client(int socket) : socket(socket)
 {
+	this->nickName = "";
+	this->realName = "";
+	this->userName = "";
 	setAddress();
 }
 
@@ -23,6 +26,12 @@ void client::setAddress(void)
 	host_entry = gethostbyaddr(&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 	inet_ntop(AF_INET, &address.sin_addr, ip_str, INET_ADDRSTRLEN);
 }
+
+void	client::setNickName(std::string nickName)	{ this->nickName = nickName;}
+void	client::setUserName(std::string userName)	{ this->userName = userName;}
+void	client::setRealName(std::string realName)	{ this->realName = realName;}
+
+int		client::getSocket(void){ return (this->socket); }
 
 client::~client()
 {

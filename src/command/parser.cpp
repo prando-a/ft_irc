@@ -15,15 +15,17 @@
 void command::checkTrailing(int required)
 {
 	if (required == YES && !this->has_trailing)
-		throw "Error: Missing trailing \n";
+		throw ERR_NEEDMOREPARAMS;
 	else if (required == NO && this->has_trailing)
-		throw "Error: Invalid trailing \n";
+		throw ERR_TOOMANYTARGETS;
 }
 
 void command::checkArgC(int min, int max)
 {
-	if (this->params.size() < min || this->params.size() > max)
-		throw "Error: Invalid number of arguments \n";
+	if (this->params.size() < min)
+		throw ERR_NEEDMOREPARAMS;
+	if (this->params.size() > max)
+		throw ERR_TOOMANYTARGETS;
 }
 
 void command::parse(void)
@@ -77,7 +79,7 @@ void command::parse(void)
 			checkTrailing(NO);
 				break;
 		default:
-			throw "Error: Invalid command \n";
+			throw ERR_UNKNOWNCOMMAND;
 			break;
 	}
 }

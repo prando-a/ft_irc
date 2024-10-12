@@ -12,67 +12,111 @@
 
 #include "../../inc/server.hpp"
 
-void server::cmdNICK(command cmd)
+void server::cmdNICK(command cmd, int sock)
 {
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 	std::cout << "\tfuncion NICK" << std::endl;
-	std::cout << "socket no." << cmd.getSock() << std::endl;
 }
 
-void server::cmdUSER(command cmd)
+void server::cmdUSER(command cmd, int sock)
 {
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 	std::cout << "\tfuncion USER" << std::endl;
-	std::cout << "socket no." << cmd.getSock() << std::endl;
 }
 
-void server::cmdQUIT(command cmd)
+void server::cmdQUIT(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdJOIN(command cmd)
+void server::cmdJOIN(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}	
 }
 
-void server::cmdPART(command cmd)
+void server::cmdPART(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdPRIVMSG(command cmd)
+void server::cmdPRIVMSG(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdKICK(command cmd)
+void server::cmdKICK(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdINVITE(command cmd)
+void server::cmdINVITE(command cmd, int sock)
 {
-
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdTOPIC(command cmd)
+void server::cmdTOPIC(command cmd, int sock)
 {
-
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdMODE(command cmd)
+void server::cmdMODE(command cmd, int sock)
 {
-	
+	if (isRegistered(sock) == false)
+	{
+		sendResponse("451 ERR_NOTREGISTERED", sock);
+		return ;
+	}
 }
 
-void server::cmdCAP(command cmd)
+void server::cmdCAP(command cmd, int sock)
 {
-	std::cout << "socket no." << cmd.getSock() << std::endl;
-	std::cout << send(cmd.getSock(), "JDNJDNKWMNDWKDMKWDMWKLDMWDLKMDWLMDW", 36, 0) << std::endl;
-	perror("send");
+	if (cmd.getParams().size() == 1 && cmd.getParams()[0] == "END")	
+		return ;
+	sendResponse("CAP * LS", sock);
 }
 
-void server::cmdPASS(command cmd)
+void server::cmdPASS(command cmd, int sock)
 {
-	(void)cmd;
-	std::cout << "\tfuncion PASS" << std::endl;
+	if (cmd.getParams()[0] != this->getPass())
+	{
+		sendResponse("464 ERR_PASS", sock);
+		return ;
+	}
+	registerUser(sock);
 }

@@ -83,9 +83,9 @@ void server::setCommandPTRs(void)
 	this->func[PASS] =		&server::cmdPASS;
 }
 
-void server::useCommand(command cmd)
+void server::useCommand(command cmd, int sock)
 {
-	(this->*func[cmd.getType()])(cmd);
+	(this->*func[cmd.getType()])(cmd, sock);
 }
 
 int server::acceptConnection(void)
@@ -94,6 +94,42 @@ int server::acceptConnection(void)
 	if ((new_socket = accept(this->_socket, (struct sockaddr *)&this->address, (socklen_t *)&this->addrlen)) < 0)
 		throw "Error: No se pudo aceptar la conexión.";
 	return (new_socket);
+}
+
+void server::sendResponse(std::string content, int sock)
+{
+	std::string response = ":" + this->hostname + " " + content + " :\r\n";
+	send(sock, response.c_str(), response.length(), 0);
+}
+
+bool server::isRegistered(int sock)
+{
+	for (int i = 0; i < this->clientList.size(); i++)
+	{
+		if (this->clientList[i].getSocket() == sock)
+			return (true);
+	}
+	return (false);
+}
+
+void server::registerUser(int sock)
+{
+	if (isRegistered(sock))
+		return ;
+	client newClient(sock);
+	this->clientList.push_back(newClient);
+}
+
+void server::unregisterUser(int sock)
+{
+	for (int i = 0; i < this->clientList.size(); i++)
+	{
+		if (this->clientList[i].getSocket() == sock)
+		{
+			this->clientList.erase(this->clientList.begin() + i);
+			break;
+		}
+	}
 }
 
 int 		server::getSocket(void) const 	{ return (this->_socket);	}

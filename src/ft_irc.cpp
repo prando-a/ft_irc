@@ -12,17 +12,96 @@
 
 #include "../inc/ft_irc.hpp"
 
-
-int sToPort(std::string port)
+int	ft_atoi(const char *str)
 {
-    for (size_t i = 0; i < port.length(); i++)
-    {
-        if (!isdigit(port[i]))
-            throw "Invalid port number.";
-    }
-    return (atoi(port.c_str()));
+	int	i;
+	int	sig;
+	int	res;
+
+	if (!str)
+		return (0);
+	i = -1;
+	sig = 1;
+	res = 0;
+	while (str[++i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+		;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i++] == '-')
+			sig = -1;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+		res = res * 10 + (str[i++] - '0');
+	return (res * sig);
 }
 
+std::string itostr(int n)
+{
+    std::string str;
+    std::stringstream ss;
+    ss << n;
+    ss >> str;
+    return str;
+}
+
+std::string itor(int rplCode)
+{
+    switch (rplCode)
+    {
+        case ERR_NEEDMOREPARAMS:
+            return "Not enough parameters";
+            break;
+        case ERR_TOOMANYTARGETS:
+            return "Too many targets";
+            break;
+        case ERR_UNKNOWNCOMMAND:
+            return "Unknown command";
+            break;
+        case ERR_NOTREGISTERED:
+            return "You have not registered";
+            break;
+        case ERR_NOTONCHANNEL:
+            return "You're not on that channel";
+            break;
+        case ERR_NOSUCHNICK:
+            return "No such nick";
+            break;
+        case ERR_NOSUCHCHANNEL:
+            return "No such channel";
+            break;
+        case ERR_CHANOPRIVSNEEDED:
+            return "You're not channel operator";
+            break;
+        case ERR_USERNOTINCHANNEL:
+            return "They aren't on that channel";
+            break;
+        case ERR_UNKNOWNMODE:
+            return "Unknown mode char to me for this channel";
+            break;
+        case ERR_ALREADYREGISTRED:
+            return "You may not reregister";
+            break;
+        case ERR_NICKNAMEINUSE:
+            return "Nickname is already in use";
+            break;
+        default:
+            break;
+    }
+    return "If you can see this, I deserve dying slowly...";
+}
+
+
+
+void sendErrResponse(std::string host, int rplCode, int sock)
+{
+	std::string response = ":";
+                response += host + " ";
+                response += itostr(rplCode) + " : ";
+                response += itor(rplCode) + "\r\n";
+
+    std::cout << "Enviando:\n\t" << response << std::endl;
+	send(sock, response.c_str(), response.length(), 0);
+}
 
 /*
 
@@ -41,6 +120,16 @@ recv, signal, sigaction, lseek, fstat, fcntl, poll
 #define MAX_CLIENTS 1024
 #define BUFFER_SIZE 1024
 
+int sToPort(std::string port)
+{
+    for (size_t i = 0; i < port.length(); i++)
+    {
+        if (!isdigit(port[i]))
+            throw "Invalid port number.";
+    }
+    return (ft_atoi(port.c_str()));
+}
+
 std::vector<std::string> split(std::string str)
 {
 	std::vector<std::string> params;
@@ -54,20 +143,14 @@ std::vector<std::string> split(std::string str)
 void process_command(std::string buffer, server& server, int socket)
 {
 	std::cout << "Recibido: " << buffer << std::endl;
+    if (buffer.length() == 0) return;
+	command cmd(buffer);
 	try
-	{
-		command cmd(buffer, socket);
-		server.useCommand(cmd);
+	{   cmd.parse();
+		server.useCommand(cmd, socket);
 	}
-	catch (const char *e)
-	{	
-        std::cout << "Enviando a: " << socket << std::endl;
-		ssize_t sent = send(socket, e, strlen(e), MSG_NOSIGNAL);
-        if (sent < 0)
-        {
-            perror("ESTO NO DEBERÍA SALIR !!!!! ->");
-        }
-	}
+	catch (IrcErrCode replCode)
+	    { sendErrResponse(server.getHostname(), replCode, socket); }
 }
 
 int multiserv()
@@ -102,7 +185,7 @@ int multiserv()
         }
 
         // Esperar actividad en alguno de los sockets
-        int activity = select(max_sd + 1, &readfds, nullptr, nullptr, nullptr);
+        int activity = select(max_sd + 1, &readfds, NULL, NULL, NULL);
         if ((activity < 0) && (errno != EINTR)) {
             perror("Error en select");
         }
@@ -146,8 +229,9 @@ int multiserv()
                 {
                     // Procesar el mensaje recibido
                     std::vector<std::string> commands = split(buffer);
-                    for (const auto& command_str : commands) {
-                        process_command(command_str, server, sd);
+                    for (int i = 0; i < commands.size(); i++)
+                    {
+                        process_command(commands[i], server, sd);
                     }
                 }
             }
@@ -162,7 +246,7 @@ void command_tester(void)
 	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
 	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
 	{
-		command cmd(buffer, 0);
+		command cmd(buffer);
 	}
 }
 

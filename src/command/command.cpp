@@ -12,12 +12,10 @@
 
 #include "../../inc/command.hpp"
 
-command::command(std::string cmd, int socket)
+command::command(std::string cmd)
 {
-	if (cmd.empty() || cmd.length() <= 0) throw "\n";
-	setMembers(cmd, socket);
+	setMembers(cmd);
 
-	std::cout << "Socket del comando: " << this->getSock() << std::endl;
 	//IMPRIMIR PARAMETROS (DEBUG)
 	// --------------------------------------------------------
 	//std::cout << "\nCommand: \n";
@@ -28,13 +26,10 @@ command::command(std::string cmd, int socket)
 	//std::cout << "Trailing: " << this->trailing << "\n";
 	//std::cout << "Vector size: " << this->params.size() << "\n\n\n";
 	// --------------------------------------------------------
-
-	parse();
 }
 
-void command::setMembers(const std::string& str, int socket)
+void command::setMembers(const std::string& str)
 {
-	this->socket = socket;
 	this->has_trailing = false;
 	this->trailing = "";
 	std::stringstream ss(str);
@@ -84,7 +79,6 @@ int command::setType(std::string cmd)
 int 						command::getType(void) 		{ return (this->type); 		}
 std::vector<std::string>	command::getParams(void)	{ return (this->params);	}
 std::string					command::getTrailing(void)	{ return (this->trailing);	}
-int							command::getSock(void)		{ return (this->socket);	}
 
 
 command::~command(){}

@@ -25,14 +25,18 @@ class client
 		struct hostent*				host_entry;
 
 		unsigned long				uID;
-		bool						isRegistered;
-		std::string					nick;
-		std::string					realname;
+		std::string					nickName;
+		std::string					userName;
+		std::string					realName;
 
 		void						setAddress(void);
 
 	public:
 		client(int);
+		void 						setNickName(std::string);
+		void 						setUserName(std::string);
+		void 						setRealName(std::string);
+		int 						getSocket(void);
 		~client();
 		client(const client &src);
 		client &operator=(const client &src);
