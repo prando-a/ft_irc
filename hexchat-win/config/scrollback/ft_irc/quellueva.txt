@@ -1,0 +1,33 @@
+T 1728835018 19*	Now talking on 22quellueva
+T 1728835018 22*	Topic for 22quellueva is: Topic not set 
+T 1728835131 19*	Now talking on 22quellueva
+T 1728835131 22*	Topic for 22quellueva is: No topic set
+T 1728835165 20*	Disconnected (20Remote host closed socket)
+T 1728835188 19*	Now talking on 22quellueva
+T 1728835188 22*	Topic for 22quellueva is: No topic set
+T 1728835306 19*	Now talking on 22quellueva
+T 1728835306 22*	Topic for 22quellueva is: No topic set
+T 1728835471 19*	Now talking on 22quellueva
+T 1728835471 22*	Topic for 22quellueva is: No topic set
+T 1728835651 20*	Disconnected (20Remote host closed socket)
+T 1728835676 19*	Now talking on 22quellueva
+T 1728835676 22*	Topic for 22quellueva is: No topic set
+T 1728835757 20*	Disconnected (20Remote host closed socket)
+T 1728835785 19*	Now talking on 22quellueva
+T 1728835785 22*	Topic for 22quellueva is: No topic set
+T 1728835863 20*	Disconnected (20Remote host closed socket)
+T 1728835895 19*	Now talking on 22quellueva
+T 1728835895 22*	Topic for 22quellueva is: No topic set
+T 1728836278 20*	Disconnected (20Remote host closed socket)
+T 1728836302 19*	Now talking on 22quellueva
+T 1728836302 22*	Topic for 22quellueva is: No topic set
+T 1728837881 20*	Disconnected (20Remote host closed socket)
+T 1728837937 20*	Disconnected (20Remote host closed socket)
+T 1728838034 20*	Disconnected (20Remote host closed socket)
+T 1728838194 19*	Now talking on 22quellueva
+T 1728838194 22*	Topic for 22quellueva is: No topic set
+T 1728838221 20*	Disconnected (20Remote host closed socket)
+T 1728838237 19*	Now talking on 22quellueva
+T 1728838237 22*	Topic for 22quellueva is: "la
+T 1728838280 20*	Disconnected (20Remote host closed socket)
+T 1728839324 20*	Disconnected (20Remote host closed socket)

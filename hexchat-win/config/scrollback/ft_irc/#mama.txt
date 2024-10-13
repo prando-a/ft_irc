@@ -1,0 +1,6 @@
+T 1728821565 19*	Now talking on 22#mama
+T 1728821565 22*	Topic for 22#mama is: Topic not set 
+T 1728821569 20<CR0M_xanzes>30	dsoksd
+T 1728822805 19*	Now talking on 22#mama
+T 1728822805 22*	Topic for 22#mama is: Topic not set 
+T 1728822822 20*	Disconnected (20Remote host closed socket)

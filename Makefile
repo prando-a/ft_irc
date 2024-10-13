@@ -7,6 +7,8 @@ SRC =	ft_irc.cpp \
 		channel/channel.cpp \
 		client/client.cpp \
 		server/server.cpp \
+		server/core.cpp \
+		server/searcher.cpp \
 		server/commands.cpp 
 SRC_O = $(SRC:.cpp=.o)
 #FLAGS =  -g -std=c++98 -Wall -Wextra -Werror

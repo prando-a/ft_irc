@@ -26,6 +26,8 @@ server::server(std::string pass, int port) : pass(pass), port(port)
 
 void server::setSocket(void)
 {
+	for (int i = 0; i < 512; i++)
+		this->sockets[i] = 0;
 	this->_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (this->_socket == -1)
 		throw "Error: No se pudo crear el socket.";
@@ -88,44 +90,35 @@ void server::useCommand(command cmd, int sock)
 	(this->*func[cmd.getType()])(cmd, sock);
 }
 
-int server::acceptConnection(void)
-{
-	int new_socket;
-	if ((new_socket = accept(this->_socket, (struct sockaddr *)&this->address, (socklen_t *)&this->addrlen)) < 0)
-		throw "Error: No se pudo aceptar la conexión.";
-	return (new_socket);
-}
-
 void server::sendResponse(std::string content, int sock)
 {
 	std::string response = ":" + this->hostname + " " + content + " :\r\n";
 	send(sock, response.c_str(), response.length(), 0);
 }
 
-bool server::isRegistered(int sock)
-{
-	for (int i = 0; i < this->clientList.size(); i++)
-	{
-		if (this->clientList[i].getSocket() == sock)
-			return (true);
-	}
-	return (false);
-}
-
 void server::registerUser(int sock)
 {
 	if (isRegistered(sock))
-		return ;
-	client newClient(sock);
+		throw ERR_ALREADYREGISTRED;
+	client* newClient = new client(sock);
 	this->clientList.push_back(newClient);
 }
 
+channel *server::createChannel(std::string name, std::string topic, int sock)
+{
+	channel *ch = new channel(name, topic, sock);
+	this->channelList.push_back(ch);
+	return (ch);
+}
+
+//falta eliminar el usuario de los canales en los que esté. Sí, debe ser aquí.
 void server::unregisterUser(int sock)
 {
 	for (int i = 0; i < this->clientList.size(); i++)
 	{
-		if (this->clientList[i].getSocket() == sock)
+		if (this->clientList[i]->getSocket() == sock)
 		{
+			delete this->clientList[i];
 			this->clientList.erase(this->clientList.begin() + i);
 			break;
 		}

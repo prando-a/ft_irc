@@ -35,19 +35,32 @@ int	ft_atoi(const char *str)
 	return (res * sig);
 }
 
-std::string itostr(int n)
+int sToPort(std::string port)
+{
+    for (size_t i = 0; i < port.length(); i++)
+    {
+        if (!isdigit(port[i]))
+            throw "Invalid port number.";
+    }
+    return (ft_atoi(port.c_str()));
+}
+
+std::string intToStr(int n)
 {
     std::string str;
     std::stringstream ss;
     ss << n;
     ss >> str;
-    return str;
+    return (str);
 }
 
 std::string itor(int rplCode)
 {
     switch (rplCode)
     {
+        case ERR_PASSWDMISMATCH:
+            return "Password incorrect";
+            break;
         case ERR_NEEDMOREPARAMS:
             return "Not enough parameters";
             break;
@@ -90,13 +103,11 @@ std::string itor(int rplCode)
     return "If you can see this, I deserve dying slowly...";
 }
 
-
-
 void sendErrResponse(std::string host, int rplCode, int sock)
 {
 	std::string response = ":";
                 response += host + " ";
-                response += itostr(rplCode) + " : ";
+                response += intToStr(rplCode) + " : ";
                 response += itor(rplCode) + "\r\n";
 
     std::cout << "Enviando:\n\t" << response << std::endl;
@@ -116,20 +127,6 @@ recv, signal, sigaction, lseek, fstat, fcntl, poll
 (or equivalent)
 
 */
-
-#define MAX_CLIENTS 1024
-#define BUFFER_SIZE 1024
-
-int sToPort(std::string port)
-{
-    for (size_t i = 0; i < port.length(); i++)
-    {
-        if (!isdigit(port[i]))
-            throw "Invalid port number.";
-    }
-    return (ft_atoi(port.c_str()));
-}
-
 std::vector<std::string> split(std::string str)
 {
 	std::vector<std::string> params;
@@ -140,115 +137,18 @@ std::vector<std::string> split(std::string str)
 	return params;
 }
 
-void process_command(std::string buffer, server& server, int socket)
-{
-	std::cout << "Recibido: " << buffer << std::endl;
-    if (buffer.length() == 0) return;
-	command cmd(buffer);
-	try
-	{   cmd.parse();
-		server.useCommand(cmd, socket);
-	}
-	catch (IrcErrCode replCode)
-	    { sendErrResponse(server.getHostname(), replCode, socket); }
-}
-
-int multiserv()
-{
-    server server("6262", 6667);
-    char buffer[BUFFER_SIZE];
-    int new_socket;
-
-    // Array de clientes
-    int client_socket[MAX_CLIENTS] = {0};
-    fd_set readfds;
-
-    // Bucle principal
-    while (true)
-    {
-        // Limpiar el conjunto de descriptores
-        FD_ZERO(&readfds);
-
-        // Agregar el socket del servidor al conjunto
-        FD_SET(server.getSocket(), &readfds);
-        int max_sd = server.getSocket();
-
-        // Agregar los sockets de clientes al conjunto
-        for (int i = 0; i < MAX_CLIENTS; i++) {
-            int sd = client_socket[i];
-            if (sd > 0) {
-                FD_SET(sd, &readfds);
-            }
-            if (sd > max_sd) {
-                max_sd = sd;
-            }
-        }
-
-        // Esperar actividad en alguno de los sockets
-        int activity = select(max_sd + 1, &readfds, NULL, NULL, NULL);
-        if ((activity < 0) && (errno != EINTR)) {
-            perror("Error en select");
-        }
-
-        // Si hay una nueva conexión
-        if (FD_ISSET(server.getSocket(), &readfds))
-        {
-            new_socket = server.acceptConnection();
-            std::cout << "Nueva conexión aceptada: FD " << new_socket << std::endl;
-
-            // Añadir nuevo cliente a la lista
-            for (int i = 0; i < MAX_CLIENTS; i++) {
-                if (client_socket[i] == 0)
-                {
-                    client_socket[i] = new_socket;
-                    std::cout << "Agregando a la lista de clientes en la posición " << i << std::endl;
-                    break;
-                }
-            }
-        }
-
-        // Leer datos de los clientes
-        for (int i = 0; i < MAX_CLIENTS; i++)
-        {
-            int sd = client_socket[i];
-
-            // Si el socket está activo
-            if (FD_ISSET(sd, &readfds))
-            {
-                // Leer datos del cliente
-                memset(buffer, 0, sizeof(buffer));
-                int valread = read(sd, buffer, BUFFER_SIZE);
-                if (valread == 0)
-                {
-                    // Si se recibe 0, el cliente se desconecta
-                    std::cout << "Cliente desconectado: FD " << sd << std::endl;
-                    close(sd);
-                    client_socket[i] = 0;
-                }
-                else
-                {
-                    // Procesar el mensaje recibido
-                    std::vector<std::string> commands = split(buffer);
-                    for (int i = 0; i < commands.size(); i++)
-                    {
-                        process_command(commands[i], server, sd);
-                    }
-                }
-            }
-        }
-    }
-    return 0;
-}
-
-void command_tester(void)
-{
-	std::string buffer;
-	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
-	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
-	{
-		command cmd(buffer);
-	}
-}
+// Prompt para probar comandos infinitamente. Descomenta también
+//  los couts del constructor de command para debugear
+//
+//void command_tester(void)
+//{
+//	std::string buffer;
+//	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
+//	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
+//	{
+//		command cmd(buffer);
+//	}
+//}
 
 int main(int argc, char **argv)
 {
@@ -256,17 +156,16 @@ int main(int argc, char **argv)
 	{
 		//if (argc != 2 || !argv[1][0])
 		//	throw "Error: No arguments given.";
+        server server(argv[1], sToPort("6667"));
+        while (true)
+        {
+            //./server/core.cpp
+            server.manageSockets();
+            server.acceptConnection();
+            server.readData();
+        }
 	}
 	catch (const char *e)
 		{ std::cerr << RED << e << "\n" << RESET; return (1); }
-
-	multiserv();
-
 	return (0);
 }
-
-                        //std::vector<std::string> commands = split(buffer);
-						//for (size_t i = 0; i < commands.size(); i++)
-						//{
-						//	process_command(commands[i], server, fds[i].fd);
-						//}

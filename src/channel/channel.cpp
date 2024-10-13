@@ -12,22 +12,52 @@
 
 #include "../../inc/channel.hpp"
 
-channel::channel()
+channel::channel(std::string name, std::string topic, int sock) : name(name), topic(topic)
 {
-
+	this->usrLimit = NO_LIMIT;
+	this->inviteOnly = false;
+	this->topicLock = false;
+	this->uList.push_back(sock);
+	this->opList.push_back(sock);
+	if (topic.length() == 0)
+		this->topic = "No topic set";
 }
 
-void channel::setOperator(unsigned long uID)
+bool channel::isRegistered(int sock)
+{
+	for (int i = 0 ; i < this->uList.size() ; i++)
+	{
+		if (this->uList[i] == sock)
+			return (true);
+	}
+	return (false);
+}
+
+bool channel::isOperator(int sock)
 {
 	for (int i = 0 ; i < this->opList.size() ; i++)
 	{
-		if (this->opList[i] == uID)
-			throw "This user is already an operator";
+		if (this->opList[i] == sock)
+			return (true);
 	}
-	this->opList.push_back(uID);
+	return (false);
 }
 
-void channel::setTopic(std::string topic, unsigned long uID)
+void channel::addUser(int sock)
+{
+	if (isRegistered(sock))
+		throw "Error: User is already in channel";
+	this->uList.push_back(sock);
+}
+
+void channel::setOperator(int sock)
+{
+	if (isOperator(sock))
+		throw "Error: User is already operator";
+	this->opList.push_back(sock);
+}
+
+void channel::setTopic(std::string topic, int sock)
 {
 	if (topic.empty())
 		throw "Error: Empty topic";
@@ -35,7 +65,7 @@ void channel::setTopic(std::string topic, unsigned long uID)
 	{
 		for (int i = 0 ; i < this->opList.size() ; i++)
 		{
-			if (this->opList[i] == uID)
+			if (this->opList[i] == sock)
 				break;
 			if (i == this->opList.size() - 1)
 				throw "Error: Topic is locked";
@@ -43,6 +73,9 @@ void channel::setTopic(std::string topic, unsigned long uID)
 	}
 	this->topic = topic;
 }
+
+std::string channel::getName(void)  const { return (this->name);  }
+std::string channel::getTopic(void) const { return (this->topic); }
 
 channel::~channel()
 {

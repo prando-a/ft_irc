@@ -69,7 +69,7 @@ void command::parse(void)
 			checkTrailing(YES);
 				break;
 		case MODE:
-			checkArgC(2, 3);
+			checkArgC(1, 3);
 			checkTrailing(NO);
 				break;
 		case CAP:

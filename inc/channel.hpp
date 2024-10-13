@@ -20,20 +20,24 @@
 class channel
 {
 	private:
-		unsigned long				cID;
 		std::string					name;
 		std::string					topic;
 		std::string					key;
-		std::vector<unsigned long>	uList;
-		std::vector<unsigned long>	opList;
+		std::vector<int>			uList;
+		std::vector<int>			opList;
 		int							usrLimit;
 		bool 						inviteOnly;
 		bool						topicLock;
 
 	public:
-		channel();
-		void		setOperator(unsigned long);
-		void		setTopic(std::string, unsigned long);
+		channel(std::string, std::string, int);
+		bool		isRegistered(int);
+		bool		isOperator(int);
+		void		setOperator(int);
+		void		setTopic(std::string, int);
+		void		addUser(int);
+		std::string	getName(void) const;
+		std::string	getTopic(void) const;
 		~channel();
 		channel(const channel &src);
 		channel &operator=(const channel &src);

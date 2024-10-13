@@ -21,10 +21,9 @@ class client
 		int 						socket;
 		struct sockaddr_in			address;
 		socklen_t					addr_len;
-		char						ip_str[INET_ADDRSTRLEN];
 		struct hostent*				host_entry;
 
-		unsigned long				uID;
+		std::string					hostName;	
 		std::string					nickName;
 		std::string					userName;
 		std::string					realName;
@@ -36,6 +35,11 @@ class client
 		void 						setNickName(std::string);
 		void 						setUserName(std::string);
 		void 						setRealName(std::string);
+		void						setHostName(void);
+		std::string					getNickName(void) const;
+		std::string					getUserName(void) const;
+		std::string					getRealName(void) const;
+		std::string					getHostName(void) const;
 		int 						getSocket(void);
 		~client();
 		client(const client &src);

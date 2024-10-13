@@ -14,7 +14,24 @@
 
 command::command(std::string cmd)
 {
-	setMembers(cmd);
+	this->has_trailing = false;
+	this->trailing = "";
+	std::stringstream ss(cmd);
+	std::string word;
+
+	while (ss >> word)
+	{
+		if (word[0] == ':')
+		{
+			this->trailing = cmd.substr(cmd.find(word) + 1);
+			this->has_trailing = true;
+			break;
+		}
+		this->params.push_back(word);
+	}
+
+	this->type = setType(this->params[0]);
+	this->params.erase(this->params.begin());
 
 	//IMPRIMIR PARAMETROS (DEBUG)
 	// --------------------------------------------------------
@@ -28,27 +45,6 @@ command::command(std::string cmd)
 	// --------------------------------------------------------
 }
 
-void command::setMembers(const std::string& str)
-{
-	this->has_trailing = false;
-	this->trailing = "";
-	std::stringstream ss(str);
-	std::string word;
-
-	while (ss >> word)
-	{
-		if (word[0] == ':')
-		{
-			this->trailing = str.substr(str.find(word) + 1);
-			this->has_trailing = true;
-			break;
-		}
-		this->params.push_back(word);
-	}
-
-	this->type = setType(this->params[0]);
-	this->params.erase(this->params.begin());
-}
 
 int command::setType(std::string cmd)
 {
@@ -87,11 +83,15 @@ command::command(const command &src)
 {
 	this->params = src.params;
 	this->type = src.type;
+	this->has_trailing = src.has_trailing;
+	this->trailing = src.trailing;
 }
 
 command &command::operator=(const command &src)
 {
 	this->params = src.params;
 	this->type = src.type;
+	this->has_trailing = src.has_trailing;
+	this->trailing = src.trailing;
 	return (*this);
 }

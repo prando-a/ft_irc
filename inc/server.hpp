@@ -25,10 +25,12 @@ class server
 		socklen_t				addrlen;
 		int						sockopt;
 		std::string				hostname;
+		fd_set					readfds;
+		int 					sockets[512];
 
 
-		std::vector<client>		clientList;
-		std::vector<channel>	channelList;
+		std::vector<client*>	clientList;
+		std::vector<channel*>	channelList;
 		unsigned long			latestChID;
 		unsigned long			latestUsrID;
 
@@ -51,6 +53,11 @@ class server
 		bool					isRegistered(int);
 		void 					registerUser(int);
 		void 					unregisterUser(int);
+		client*					getClientbySock(int);
+		client*					getClientbyNick(std::string);
+		channel*				createChannel(std::string, std::string, int);
+		channel*				getChannelbyName(std::string);
+		bool					nickExists(std::string);
 
 		void 					setCommandPTRs(void);
 		void 					setSocket(void);
@@ -63,8 +70,11 @@ class server
 		int						getSocket(void) const;
 		std::string				getHostname(void) const;
 		
+		void					manageSockets(void);
+		void 					acceptConnection(void);
+		void					readData(void);
+		void					processData(std::string, int*);
 		void					useCommand(command, int);
-		int 					acceptConnection(void);	
 		~server();
 		server(const server &src);
 		server &operator=(const server &src);

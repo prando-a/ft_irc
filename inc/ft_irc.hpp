@@ -10,6 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//   /$$$$$$   /$$          /$$                     //
+//  /$$__  $$ | $$         |__/                     //
+// | $$  \__//$$$$$$        /$$  /$$$$$$   /$$$$$$$ //
+// | $$$$   |_  $$_/       | $$ /$$__  $$ /$$_____/ //
+// | $$_/     | $$         | $$| $$  \__/| $$       //
+// | $$       | $$ /$$     | $$| $$      | $$       //
+// | $$       |  $$$$/     | $$| $$      |  $$$$$$$ //
+// |__/        \___//$$$$$$|__/|__/       \_______/ //
+//                 |______/           by            //
+//                                       prando-a   //
+//                                       jose-mgo   //
+
 #ifndef IRC_H
 # define IRC_H
 
@@ -61,6 +73,7 @@ enum commandType
 enum IrcErrCode {
 
      // Respuestas generales de error
+    ERR_PASSWDMISMATCH = 464, // :Password incorrect
     ERR_UNKNOWNCOMMAND = 421, // <command> :Unknown command
 	ERR_TOOMANYTARGETS = 407, // <target> :<error code> recipients. <abort message>
     ERR_NEEDMOREPARAMS = 461, // <command> :Not enough parameters
@@ -120,5 +133,9 @@ class command;
 # include "channel.hpp"
 # include "client.hpp"
 # include "command.hpp"
+
+std::vector<std::string> split(std::string str);
+std::string intToStr(int n);
+void sendErrResponse(std::string host, int rplCode, int sock);
 
 #endif

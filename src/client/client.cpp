@@ -22,19 +22,34 @@ client::client(int socket) : socket(socket)
 
 void client::setAddress(void)
 {
-	if (getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len) == -1)
+	this->addr_len = sizeof(this->address);
+	if (getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len) == -1);
 	host_entry = gethostbyaddr(&address.sin_addr, sizeof(address.sin_addr), AF_INET);
-	inet_ntop(AF_INET, &address.sin_addr, ip_str, INET_ADDRSTRLEN);
+	std::cout << "Cliente conectado desde " << host_entry->h_name << std::endl;
 }
 
 void	client::setNickName(std::string nickName)	{ this->nickName = nickName;}
 void	client::setUserName(std::string userName)	{ this->userName = userName;}
 void	client::setRealName(std::string realName)	{ this->realName = realName;}
 
+void	client::setHostName(void)
+{
+	this->hostName =  this->getNickName() + "!"
+					+ this->getUserName() + "@"
+					+ this->host_entry->h_name;
+}
+
+std::string	client::getNickName(void) const			{ return (this->nickName); }
+std::string	client::getUserName(void) const			{ return (this->userName); }
+std::string	client::getRealName(void) const			{ return (this->realName); }
+std::string	client::getHostName(void) const			{ return (this->hostName); }
+
+
 int		client::getSocket(void){ return (this->socket); }
 
 client::~client()
 {
+	
 }
 
 client::client(const client &src)

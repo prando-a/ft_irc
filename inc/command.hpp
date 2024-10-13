@@ -43,7 +43,6 @@ class command
 		std::vector<std::string>	params;
 		bool						has_trailing;
 		std::string					trailing;
-		void						setMembers(const std::string&);
 		int 						setType(std::string);
 		void						checkArgC(int, int);
 		void						checkTrailing(int);
