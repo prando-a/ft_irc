@@ -38,6 +38,8 @@ class channel
 		void		addUser(int);
 		std::string	getName(void) const;
 		std::string	getTopic(void) const;
+		bool		sendToChannel(std::string to_send);
+		std::vector<int>		&getUList();
 		~channel();
 		channel(const channel &src);
 		channel &operator=(const channel &src);

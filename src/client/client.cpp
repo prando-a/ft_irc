@@ -23,6 +23,7 @@ client::client(int socket) : socket(socket)
 void client::setAddress(void)
 {
 	this->addr_len = sizeof(this->address);
+	#warning if statement empty!!!!
 	if (getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len) == -1);
 	host_entry = gethostbyaddr(&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 	std::cout << "Cliente conectado desde " << host_entry->h_name << std::endl;

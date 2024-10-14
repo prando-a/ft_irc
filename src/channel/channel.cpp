@@ -74,6 +74,20 @@ void channel::setTopic(std::string topic, int sock)
 	this->topic = topic;
 }
 
+std::vector<int> &channel::getUList()
+{
+	return this->uList;
+}
+
+bool		channel::sendToChannel(std::string to_send)
+{
+	for (int i = 0; i < this->getUList().size(); ++i)
+		if (send(this->getUList()[i], to_send.c_str(), to_send.length(), 0) == -1)
+			return false;
+	return true;
+}
+
+
 std::string channel::getName(void)  const { return (this->name);  }
 std::string channel::getTopic(void) const { return (this->topic); }
 
