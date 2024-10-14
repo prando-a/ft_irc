@@ -81,8 +81,10 @@ std::vector<int> &channel::getUList()
 
 bool		channel::sendToChannel(std::string to_send)
 {
-	for (int i = 0; i < this->getUList().size(); ++i)
-		if (send(this->getUList()[i], to_send.c_str(), to_send.length(), 0) == -1)
+	std::vector<int>::iterator it;
+
+	for (it = uList.begin(); it != this->uList.end(); ++it)
+		if (send(uList[std::distance(uList.begin(), it)], to_send.c_str(), to_send.length(), 0) == -1)
 			return false;
 	return true;
 }

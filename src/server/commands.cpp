@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/server.hpp"
+#include <algorithm>
 
 
 //completa y funcional
@@ -55,6 +56,8 @@ void server::cmdJOIN(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	client *cli = getClientbySock(sock);
 	channel *ch;
+	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
+		throw ERR_USERNOTINCHANNEL;
 	std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
 	try
 	{
@@ -70,12 +73,12 @@ void server::cmdJOIN(command cmd, int sock)
 	}
 	std::string confirm = ":"	+ cli->getHostName() + " JOIN :"
 								+ cmd.getParams()[0] + "\r\n";
-	send(sock, confirm.c_str(), confirm.length(), 0);
+	ch->sendToChannel(confirm);
 
 	std::string res = ":" + this->getHostname() + " "
 					+ intToStr(332) + " " + cli->getNickName() + " "
 					+ cmd.getParams()[0] + " :" + ch->getTopic() + "\r\n";
-	send(sock, res.c_str(), res.length(), 0);
+	ch->sendToChannel(res);
 }
 
 void server::cmdPART(command cmd, int sock)
@@ -96,8 +99,10 @@ void server::cmdKICK(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 	// comprobar que sea op
-	client	*cli = getClientbySock(sock);
 	std::vector<int>::iterator it;
+	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
+		throw ERR_USERNOTINCHANNEL;
+	client	*cli = getClientbySock(sock);
 	for (it = ch->getUList().begin(); it < ch->getUList().end() && ch->getUList()[std::distance(ch->getUList().begin(), it)] != 
 		getClientbyNick(cmd.getParams()[1])->getSocket(); ++it)
 		;
@@ -123,6 +128,8 @@ void server::cmdTOPIC(command cmd, int sock)
 	client *cli = getClientbySock(sock);
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 
+	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
+		throw ERR_USERNOTINCHANNEL;
 	ch->setTopic(cmd.getTrailing(), sock);
 	std::string cf = "TOPIC " + ch->getName() + " :" + cmd.getTrailing() + "\r\n";
 	if (!ch->sendToChannel(cf))
@@ -130,13 +137,13 @@ void server::cmdTOPIC(command cmd, int sock)
 	std::string to_send = ":" + this->getHostname() + " "
 					+ intToStr(332) + " "
 					+ cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
-	send(sock, to_send.c_str(), to_send.length(), 0);
+	ch->sendToChannel(to_send);
 
 	std::string topic_info = ":" + this->getHostname() + " "
                          + intToStr(333) + " " + cli->getNickName() + " "
                          + cmd.getParams()[0] + " " + getClientbySock(sock)->getUserName() + " "
                          + intToStr(std::time(NULL)) + "\r\n";
-	send(sock, topic_info.c_str(), topic_info.length(), 0);
+	ch->sendToChannel(topic_info);
 }
 
 void server::cmdMODE(command cmd, int sock)
