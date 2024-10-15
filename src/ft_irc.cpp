@@ -152,11 +152,13 @@ std::vector<std::string> split(std::string str)
 
 int main(int argc, char **argv)
 {
+    if (!strcmp(argv[1], "-h"))
+        return std::cout << "./ircserv <port> <password>" << std::endl, 0;
 	try
 	{
-		//if (argc != 2 || !argv[1][0])
-		//	throw "Error: No arguments given.";
-        server server(argv[1], sToPort("6667"));
+		if (argc != 3 || !argv[1][0])
+			throw "Error: No arguments given.";
+        server server(argv[2], sToPort(argv[1]));
         while (true)
         {
             //./server/core.cpp

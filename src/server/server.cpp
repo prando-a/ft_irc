@@ -83,6 +83,7 @@ void server::setCommandPTRs(void)
 	this->func[MODE] =		&server::cmdMODE;
 	this->func[CAP] =		&server::cmdCAP;
 	this->func[PASS] =		&server::cmdPASS;
+	this->func[WHO] =		&server::cmdWHO;
 }
 
 void server::useCommand(command cmd, int sock)

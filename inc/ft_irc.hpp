@@ -67,6 +67,7 @@ enum commandType
 	MODE,
 	CAP,
 	PASS,
+    WHO,
 	INVALID = -1
 };
 

@@ -37,7 +37,7 @@ class server
 
 
 		typedef void			(server::*funcPTR)(command, int);
-		funcPTR					func[12];
+		funcPTR					func[13];
 		void 					cmdNICK(command, int);
 		void 					cmdUSER(command, int);
 		void 					cmdQUIT(command, int);
@@ -50,6 +50,7 @@ class server
 		void 					cmdMODE(command, int);
 		void 					cmdCAP(command, int);
 		void 					cmdPASS(command, int);
+		void					cmdWHO(command, int);
 		void					sendResponse(std::string, int);
 		bool					isRegistered(int);
 		void 					registerUser(int);

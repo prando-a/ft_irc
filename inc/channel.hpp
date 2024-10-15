@@ -39,6 +39,9 @@ class channel
 		std::string	getName(void) const;
 		std::string	getTopic(void) const;
 		bool		sendToChannel(std::string to_send);
+		void		deleteOp(int sock);
+		void		setTopicLock(bool b);
+		bool		getTopicLock() const;
 		std::vector<int>		&getUList();
 		~channel();
 		channel(const channel &src);

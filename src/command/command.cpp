@@ -61,10 +61,11 @@ int command::setType(std::string cmd)
 		"TOPIC",
 		"MODE",
 		"CAP",
-		"PASS"
+		"PASS",
+		"WHO"
 	};
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		if (commands[i] == cmd)
 			return (i);

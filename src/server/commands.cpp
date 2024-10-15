@@ -56,8 +56,6 @@ void server::cmdJOIN(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	client *cli = getClientbySock(sock);
 	channel *ch;
-	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
-		throw ERR_USERNOTINCHANNEL;
 	std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
 	try
 	{
@@ -87,10 +85,44 @@ void server::cmdPART(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 }
 
+void	server::cmdWHO(command cmd, int sock)
+{
+	if (isRegistered(sock) == false)
+		throw ERR_NOTREGISTERED;
+}
+
+std::string	get_prefix(client *cl)
+{
+	std::string	prefix = cl->getNickName();
+
+	if (cl->getUserName().length())
+		prefix += "!" + cl->getUserName();
+	prefix += "@" + cl->getHostName();
+
+	return (prefix);
+}
+
 void server::cmdPRIVMSG(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	client *sender = getClientbySock(sock);
+	if (ch) // for message to a channel
+	{
+		if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
+			throw ERR_USERNOTINCHANNEL;
+		std::string msg = ":" + sender->getNickName() + " PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
+		ch->sendToChannel(msg);
+	}
+	else if (client *cl = getClientbyNick(cmd.getParams()[0])) // for message to a person
+	{
+		std::string priv_msg = ":" + sender->getNickName() + " PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
+		send(cl->getSocket(), priv_msg.c_str(), priv_msg.length(), 0);
+	}
+	else
+		throw
+			ERR_NOSUCHNICK;
 }
 
 void server::cmdKICK(command cmd, int sock)
@@ -98,6 +130,8 @@ void server::cmdKICK(command cmd, int sock)
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	if (!ch->isOperator(sock))
+		throw "This user is not OP";
 	// comprobar que sea op
 	std::vector<int>::iterator it;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
@@ -127,7 +161,9 @@ void server::cmdTOPIC(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	client *cli = getClientbySock(sock);
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
-
+	if (ch->getTopicLock() && !ch->isOperator(sock)) //Si esta bloqueado y no es op no se puede cambiar
+		return ;
+	std::cout << "topic lock = " << ch->getTopicLock() << " is op = " << ch->isOperator(sock) <<  std::endl;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 		throw ERR_USERNOTINCHANNEL;
 	ch->setTopic(cmd.getTrailing(), sock);
@@ -150,6 +186,18 @@ void server::cmdMODE(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setTopicLock(true);
+		ch->sendToChannel(":MODE " + ch->getName() + "+t\r\n");
+	}
+	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "-t")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setTopicLock(false);
+		ch->sendToChannel(":MODE " + ch->getName() + "-t\r\n");
+	}
 }
 
 void server::cmdCAP(command cmd, int sock)

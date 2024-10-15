@@ -57,6 +57,20 @@ void channel::setOperator(int sock)
 	this->opList.push_back(sock);
 }
 
+void		channel::setTopicLock(bool b)
+{
+	topicLock = b;
+}
+
+void channel::deleteOp(int sock)
+{
+	std::vector<int>::iterator it;
+
+	for (it = opList.begin(); it != opList.end(); ++it)
+		if (opList[std::distance(opList.begin(), it)] == sock)
+			opList.erase(it);
+}
+
 void channel::setTopic(std::string topic, int sock)
 {
 	if (topic.empty())
@@ -89,6 +103,10 @@ bool		channel::sendToChannel(std::string to_send)
 	return true;
 }
 
+bool		channel::getTopicLock() const
+{
+	return this->topicLock;
+}
 
 std::string channel::getName(void)  const { return (this->name);  }
 std::string channel::getTopic(void) const { return (this->topic); }
