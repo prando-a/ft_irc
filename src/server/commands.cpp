@@ -112,7 +112,7 @@ void server::cmdPRIVMSG(command cmd, int sock)
 	{
 		if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 			throw ERR_USERNOTINCHANNEL;
-		std::string msg = ":" + sender->getNickName() + " PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
+		std::string msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG :" + cmd.getTrailing() + "\r\n";
 		ch->sendToChannel(msg);
 	}
 	else if (client *cl = getClientbyNick(cmd.getParams()[0])) // for message to a person

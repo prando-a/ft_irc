@@ -98,8 +98,12 @@ bool		channel::sendToChannel(std::string to_send)
 	std::vector<int>::iterator it;
 
 	for (it = uList.begin(); it != this->uList.end(); ++it)
+	{
+		std::cout << "Sending to " << *it << std::endl;
 		if (send(uList[std::distance(uList.begin(), it)], to_send.c_str(), to_send.length(), 0) == -1)
 			return false;
+	}
+
 	return true;
 }
 
