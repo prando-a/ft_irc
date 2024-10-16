@@ -14,7 +14,7 @@
 # define SERVER_H
 
 # include "ft_irc.hpp"
-# include <ctime>
+
 
 class server
 {

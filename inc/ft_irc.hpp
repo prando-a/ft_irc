@@ -37,10 +37,12 @@
 # include <arpa/inet.h>
 # include <sstream>
 # include <vector>
+# include <map>
 # include <poll.h>
 # include <fcntl.h>
 # include <signal.h>
 # include <cerrno>
+# include <ctime>
 
 # define RED     	"\x1b[31m"
 # define GREEN   	"\x1b[32m"
@@ -87,6 +89,8 @@ enum IrcErrCode {
     ERR_UNKNOWNMODE = 472,   // <char> :is unknown mode char to me for <channel>
     ERR_ALREADYREGISTRED = 462, // :You may not reregister
     ERR_NICKNAMEINUSE = 433, // <nick> :Nickname is already in use
+    ERR_BADCHANMASK = 476,
+    ERR_INVITEONLYCHAN = 473, // invite only channel
 
 
     RPL_TOPIC = 332,         // <channel> :<topic> // éxito al unirse a un canal

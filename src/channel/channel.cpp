@@ -14,6 +14,8 @@
 
 channel::channel(std::string name, std::string topic, int sock) : name(name), topic(topic)
 {
+	if (this->name[0] != '#' || this->name.length() < 2)
+		throw ERR_BADCHANMASK;
 	this->usrLimit = NO_LIMIT;
 	this->inviteOnly = false;
 	this->topicLock = false;
@@ -21,6 +23,11 @@ channel::channel(std::string name, std::string topic, int sock) : name(name), to
 	this->opList.push_back(sock);
 	if (topic.length() == 0)
 		this->topic = "No topic set";
+}
+
+bool		channel::getInviteOnly() const
+{
+	return this->inviteOnly;
 }
 
 bool channel::isRegistered(int sock)
@@ -62,6 +69,21 @@ void		channel::setTopicLock(bool b)
 	topicLock = b;
 }
 
+void channel::setPass(std::string password)
+{
+	this->password = password;
+}
+
+void		channel::deletePass()
+{
+	this->password.clear();
+}
+
+void		channel::setInviteOnly(bool b)
+{
+	this->inviteOnly = b;
+}
+
 void channel::deleteOp(int sock)
 {
 	std::vector<int>::iterator it;
@@ -93,17 +115,16 @@ std::vector<int> &channel::getUList()
 	return this->uList;
 }
 
-bool		channel::sendToChannel(std::string to_send)
+bool		channel::sendToChannel(std::string to_send, int exc)
 {
 	std::vector<int>::iterator it;
 
 	for (it = uList.begin(); it != this->uList.end(); ++it)
 	{
 		std::cout << "Sending to " << *it << std::endl;
-		if (send(uList[std::distance(uList.begin(), it)], to_send.c_str(), to_send.length(), 0) == -1)
+		if (uList[std::distance(uList.begin(), it)] != exc && send(uList[std::distance(uList.begin(), it)], to_send.c_str(), to_send.length(), 0) == -1)
 			return false;
 	}
-
 	return true;
 }
 
@@ -117,6 +138,7 @@ std::string channel::getTopic(void) const { return (this->topic); }
 
 channel::~channel()
 {
+	std::cout << RED << "CANAL DESTRUIDO AAAAAAAAAAAA\n"; 
 }
 
 channel::channel(const channel &src)

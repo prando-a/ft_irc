@@ -60,6 +60,8 @@ void server::cmdJOIN(command cmd, int sock)
 	try
 	{
 		ch = getChannelbyName(cmd.getParams()[0]);
+		if (ch->getInviteOnly() && !cli->isInvited(cmd.getParams()[0]))
+			throw ERR_INVITEONLYCHAN;
 		ch->addUser(sock);
 	}
 	catch (IrcErrCode err)
@@ -71,12 +73,12 @@ void server::cmdJOIN(command cmd, int sock)
 	}
 	std::string confirm = ":"	+ cli->getHostName() + " JOIN :"
 								+ cmd.getParams()[0] + "\r\n";
-	ch->sendToChannel(confirm);
+	ch->sendToChannel(confirm, -1);
 
 	std::string res = ":" + this->getHostname() + " "
 					+ intToStr(332) + " " + cli->getNickName() + " "
 					+ cmd.getParams()[0] + " :" + ch->getTopic() + "\r\n";
-	ch->sendToChannel(res);
+	ch->sendToChannel(res, -1);
 }
 
 void server::cmdPART(command cmd, int sock)
@@ -91,33 +93,30 @@ void	server::cmdWHO(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 }
 
-std::string	get_prefix(client *cl)
-{
-	std::string	prefix = cl->getNickName();
-
-	if (cl->getUserName().length())
-		prefix += "!" + cl->getUserName();
-	prefix += "@" + cl->getHostName();
-
-	return (prefix);
-}
-
 void server::cmdPRIVMSG(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
-	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	channel *ch;
+	try
+	{
+		ch = getChannelbyName(cmd.getParams()[0]);
+	}
+	catch(...)
+	{
+		ch = NULL;
+	}
 	client *sender = getClientbySock(sock);
 	if (ch) // for message to a channel
 	{
 		if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 			throw ERR_USERNOTINCHANNEL;
-		std::string msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG :" + cmd.getTrailing() + "\r\n";
-		ch->sendToChannel(msg);
+		std::string msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
+		ch->sendToChannel(msg, sock);
 	}
 	else if (client *cl = getClientbyNick(cmd.getParams()[0])) // for message to a person
 	{
-		std::string priv_msg = ":" + sender->getNickName() + " PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
+		std::string priv_msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
 		send(cl->getSocket(), priv_msg.c_str(), priv_msg.length(), 0);
 	}
 	else
@@ -146,13 +145,22 @@ void server::cmdKICK(command cmd, int sock)
 	
 	std::string kick = ":" + cli->getNickName() + "!" + cli->getUserName() + "@" + cli->getHostName() 
                            + " KICK " + cmd.getParams()[0] + " " + cmd.getParams()[1] + " :" + cmd.getTrailing() + "\r\n";
-	ch->sendToChannel(kick);
+	ch->sendToChannel(kick, -1);
 }
 
 void server::cmdINVITE(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	client *inviter = getClientbySock(sock);
+	client *guest = getClientbyNick(cmd.getParams()[1]);
+	channel *ch;
+	std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
+	ch = getChannelbyName(cmd.getParams()[0]);
+	guest->setChannel(cmd.getParams()[0]);
+	std::string confirm = ":"	+ guest->getNickName() + " INVITE :"
+								+ cmd.getParams()[0] + "\r\n";
+	ch->sendToChannel(confirm, -1);
 }
 
 void server::cmdTOPIC(command cmd, int sock)
@@ -168,35 +176,74 @@ void server::cmdTOPIC(command cmd, int sock)
 		throw ERR_USERNOTINCHANNEL;
 	ch->setTopic(cmd.getTrailing(), sock);
 	std::string cf = "TOPIC " + ch->getName() + " :" + cmd.getTrailing() + "\r\n";
-	if (!ch->sendToChannel(cf))
+	if (!ch->sendToChannel(cf, -1))
 		return ;
 	std::string to_send = ":" + this->getHostname() + " "
 					+ intToStr(332) + " "
 					+ cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
-	ch->sendToChannel(to_send);
+	ch->sendToChannel(to_send, -1);
 
 	std::string topic_info = ":" + this->getHostname() + " "
                          + intToStr(333) + " " + cli->getNickName() + " "
                          + cmd.getParams()[0] + " " + getClientbySock(sock)->getUserName() + " "
                          + intToStr(std::time(NULL)) + "\r\n";
-	ch->sendToChannel(topic_info);
+	ch->sendToChannel(topic_info, -1);
 }
 
 void server::cmdMODE(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
-	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t")
+	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	if (!ch->isOperator(sock))
+		throw ERR_NOSUCHNICK;
+	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t") //For topic lock
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setTopicLock(true);
-		ch->sendToChannel(":MODE " + ch->getName() + "+t\r\n");
+		ch->sendToChannel(":MODE " + ch->getName() + "+t\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "-t")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setTopicLock(false);
-		ch->sendToChannel(":MODE " + ch->getName() + "-t\r\n");
+		ch->sendToChannel(":MODE " + ch->getName() + "-t\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+o") //Make a user op
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setOperator(getClientbyNick(cmd.getParams()[2])->getSocket());
+		ch->sendToChannel(":MODE " + ch->getName() + "+o" + cmd.getParams()[2] + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "-o")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->deleteOp(getClientbyNick(cmd.getParams()[2])->getSocket());
+		ch->sendToChannel(":MODE " + ch->getName() + "-o" + cmd.getParams()[2] + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+k") //Put password
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setPass(cmd.getParams()[2]);
+		ch->sendToChannel(":MODE " + ch->getName() + "+k" + cmd.getParams()[2] + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "-k")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->deletePass();
+		ch->sendToChannel(":MODE " + ch->getName() + "-k" + cmd.getParams()[2] + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+i") //For invite only channel
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setInviteOnly(true);
+		ch->sendToChannel(":MODE " + ch->getName() + "+i" + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "-i")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setInviteOnly(false);
+		ch->sendToChannel(":MODE " + ch->getName() + "-i" + "\r\n", -1);
 	}
 }
 

@@ -23,6 +23,7 @@ class channel
 		std::string					name;
 		std::string					topic;
 		std::string					key;
+		std::string					password;
 		std::vector<int>			uList;
 		std::vector<int>			opList;
 		int							usrLimit;
@@ -35,13 +36,17 @@ class channel
 		bool		isOperator(int);
 		void		setOperator(int);
 		void		setTopic(std::string, int);
+		void		setPass(std::string password);
+		void		setInviteOnly(bool b);
 		void		addUser(int);
 		std::string	getName(void) const;
 		std::string	getTopic(void) const;
-		bool		sendToChannel(std::string to_send);
+		bool		sendToChannel(std::string to_send, int exc);
 		void		deleteOp(int sock);
+		void		deletePass();
 		void		setTopicLock(bool b);
 		bool		getTopicLock() const;
+		bool		getInviteOnly() const;
 		std::vector<int>		&getUList();
 		~channel();
 		channel(const channel &src);

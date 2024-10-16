@@ -81,6 +81,7 @@ void command::parse(void)
 		case WHO:
 			checkArgC(1, 1);
 			checkTrailing(NO);
+			break;
 		default:
 			throw ERR_UNKNOWNCOMMAND;
 			break;

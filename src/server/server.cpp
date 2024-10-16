@@ -44,6 +44,8 @@ void server::setSocket(void)
 	if (bind(this->_socket, (struct sockaddr *)&this->address, sizeof(this->address)) < 0)
 		throw "Error: No se pudo enlazar el socket.";
 
+	fcntl(this->_socket, F_SETFL, O_NONBLOCK);
+
 	if (listen(this->_socket, 3) < 0)
 		throw "Error: No se pudo escuchar el socket.";
 

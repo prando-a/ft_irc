@@ -20,6 +20,35 @@ client::client(int socket) : socket(socket)
 	setAddress();
 }
 
+std::vector<std::string>	client::getChannels() const
+{
+	return this->invitedChannels;
+}
+
+void	client::setChannel(std::string _channel)
+{
+	this->invitedChannels.push_back(_channel);
+}
+
+void	client::deleteChannel(std::string _name)
+{
+	std::vector<std::string>::iterator it;
+
+	for (it = this->invitedChannels.begin(); it != invitedChannels.end(); ++it)
+		if (invitedChannels[std::distance(invitedChannels.begin(), it)] == _name)
+			invitedChannels.erase(it);
+}
+
+bool	client::isInvited(std::string _name)
+{
+	std::vector<std::string>::iterator it;
+
+	for (it = this->invitedChannels.begin(); it != invitedChannels.end(); ++it)
+		if (invitedChannels[std::distance(invitedChannels.begin(), it)] == _name)
+			return true;
+	return false;
+}
+
 void client::setAddress(void)
 {
 	this->addr_len = sizeof(this->address);

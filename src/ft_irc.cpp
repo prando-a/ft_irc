@@ -97,6 +97,12 @@ std::string itor(int rplCode)
         case ERR_NICKNAMEINUSE:
             return "Nickname is already in use";
             break;
+        case ERR_BADCHANMASK:
+            return "Bad channel name";
+            break;
+        case ERR_INVITEONLYCHAN:
+            return "Cannot join channel";
+            break;
         default:
             break;
     }
@@ -152,7 +158,7 @@ std::vector<std::string> split(std::string str)
 
 int main(int argc, char **argv)
 {
-    if (!strcmp(argv[1], "-h"))
+    if (argv[1] == NULL|| !strcmp(argv[1], "-h"))
         return std::cout << "./ircserv <port> <password>" << std::endl, 0;
 	try
 	{
