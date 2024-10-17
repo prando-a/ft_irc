@@ -44,7 +44,7 @@ class command
 		bool						has_trailing;
 		std::string					trailing;
 		int 						setType(std::string);
-		void						checkArgC(int, int);
+		void						checkArgC(size_t, size_t);
 		void						checkTrailing(int);
 
 	public:

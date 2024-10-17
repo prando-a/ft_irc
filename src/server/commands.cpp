@@ -43,13 +43,12 @@ void server::cmdUSER(command cmd, int sock)
 //necesita pruebas, hay que gestionar el mensaje de despedida en el trailing,
 void server::cmdQUIT(command cmd, int sock)
 {
+	(void)cmd;
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
 	unregisterUser(sock);
-	
 }
 
-//ns pq el trailing no se pasa xd
 void server::cmdJOIN(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
@@ -60,8 +59,13 @@ void server::cmdJOIN(command cmd, int sock)
 	try
 	{
 		ch = getChannelbyName(cmd.getParams()[0]);
+		if (!cli->isInvited(cmd.getParams()[0]) && ((!ch->getPass().empty() && cmd.getParams().size() < 2)
+			|| (!ch->getPass().empty() && ch->getPass() != cmd.getParams()[1])))
+			throw ERR_PASSWDMISMATCH;
 		if (ch->getInviteOnly() && !cli->isInvited(cmd.getParams()[0]))
 			throw ERR_INVITEONLYCHAN;
+		else if (cli->isInvited(cmd.getParams()[0]))
+			cli->deleteChannel(cmd.getParams()[0]);
 		ch->addUser(sock);
 	}
 	catch (IrcErrCode err)
@@ -81,16 +85,34 @@ void server::cmdJOIN(command cmd, int sock)
 	ch->sendToChannel(res, -1);
 }
 
-void server::cmdPART(command cmd, int sock)
+void server::cmdPART(command cmd, int sock) //por terminar
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	//client	*cli = getClientbySock(sock);
+	channel	*ch = getChannelbyName(cmd.getParams()[0]);
+	if (!ch->isRegistered(sock))
+		throw ERR_USERNOTINCHANNEL;
+	if (ch->isOperator(sock))
+		ch->deleteOp(sock);
+	ch->deleteUser(sock);
+	std::cout << RED <<  ch->getUList().size() << std::endl;
+	if (!ch->getUList().size())
+	{
+		std::cout << GREEN << "No users in the channel, deleting ..." << RESET << std::endl;
+		this->deleteChannel(ch->getName());
+		throw ERR_NOSUCHCHANNEL;
+	}
+	if (!ch->getOpList().size())
+		ch->setOperator(*ch->getUList().begin());
 }
 
 void	server::cmdWHO(command cmd, int sock)
 {
+	(void)cmd;
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	
 }
 
 void server::cmdPRIVMSG(command cmd, int sock)
@@ -130,7 +152,7 @@ void server::cmdKICK(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 	if (!ch->isOperator(sock))
-		throw "This user is not OP";
+		throw ERR_CHANOPRIVSNEEDED;
 	// comprobar que sea op
 	std::vector<int>::iterator it;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
@@ -153,13 +175,15 @@ void server::cmdINVITE(command cmd, int sock)
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
 	client *inviter = getClientbySock(sock);
-	client *guest = getClientbyNick(cmd.getParams()[1]);
+	client *guest = getClientbyNick(cmd.getParams()[0]);
+	if (!guest)
+		throw ERR_NOSUCHNICK;
 	channel *ch;
-	std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
-	ch = getChannelbyName(cmd.getParams()[0]);
-	guest->setChannel(cmd.getParams()[0]);
-	std::string confirm = ":"	+ guest->getNickName() + " INVITE :"
-								+ cmd.getParams()[0] + "\r\n";
+	ch = getChannelbyName(cmd.getParams()[1]);
+	guest->setChannel(cmd.getParams()[1]);
+	std::string confirm = ":" + inviter->getNickName() + " INVITE "
+					+ guest->getNickName()+ " :" + cmd.getParams()[1] + "\r\n";
+	send(guest->getSocket(), confirm.c_str(), confirm.length(), 0);
 	ch->sendToChannel(confirm, -1);
 }
 
@@ -170,7 +194,7 @@ void server::cmdTOPIC(command cmd, int sock)
 	client *cli = getClientbySock(sock);
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 	if (ch->getTopicLock() && !ch->isOperator(sock)) //Si esta bloqueado y no es op no se puede cambiar
-		return ;
+		throw ERR_CHANOPRIVSNEEDED;
 	std::cout << "topic lock = " << ch->getTopicLock() << " is op = " << ch->isOperator(sock) <<  std::endl;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 		throw ERR_USERNOTINCHANNEL;
@@ -195,56 +219,59 @@ void server::cmdMODE(command cmd, int sock)
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	client	*cl = getClientbySock(sock);
 	if (!ch->isOperator(sock))
-		throw ERR_NOSUCHNICK;
+		throw ERR_CHANOPRIVSNEEDED;
 	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t") //For topic lock
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setTopicLock(true);
-		ch->sendToChannel(":MODE " + ch->getName() + "+t\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + " +t\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "-t")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setTopicLock(false);
-		ch->sendToChannel(":MODE " + ch->getName() + "-t\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + " -t\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+o") //Make a user op
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setOperator(getClientbyNick(cmd.getParams()[2])->getSocket());
-		ch->sendToChannel(":MODE " + ch->getName() + "+o" + cmd.getParams()[2] + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + ch->getName() + " +o " + cmd.getParams()[2] + "\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "-o")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->deleteOp(getClientbyNick(cmd.getParams()[2])->getSocket());
-		ch->sendToChannel(":MODE " + ch->getName() + "-o" + cmd.getParams()[2] + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + cmd.getParams()[2] + "\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+k") //Put password
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setPass(cmd.getParams()[2]);
-		ch->sendToChannel(":MODE " + ch->getName() + "+k" + cmd.getParams()[2] + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + cmd.getParams()[2] + "\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "-k")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->deletePass();
-		ch->sendToChannel(":MODE " + ch->getName() + "-k" + cmd.getParams()[2] + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + cmd.getParams()[2] + "\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+i") //For invite only channel
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setInviteOnly(true);
-		ch->sendToChannel(":MODE " + ch->getName() + "+i" + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + "\r\n", -1);
 	}
 	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "-i")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setInviteOnly(false);
-		ch->sendToChannel(":MODE " + ch->getName() + "-i" + "\r\n", -1);
+		ch->sendToChannel(":" + cl->getNickName() + " MODE " + "\r\n", -1);
 	}
+	else
+		throw ERR_UNKNOWNMODE;
 }
 
 void server::cmdCAP(command cmd, int sock)

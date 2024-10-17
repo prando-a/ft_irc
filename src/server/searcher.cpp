@@ -17,7 +17,7 @@
 
 bool server::isRegistered(int sock)
 {
-	for (int i = 0; i < this->clientList.size(); i++)
+	for (size_t i = 0; i < this->clientList.size(); i++)
 	{
 		if (this->clientList[i]->getSocket() == sock)
 			return (true);
@@ -27,7 +27,7 @@ bool server::isRegistered(int sock)
 
 bool server::nickExists(std::string nick)
 {
-	for (int i = 0; i < this->clientList.size(); i++)
+	for (size_t i = 0; i < this->clientList.size(); i++)
 	{
 		if (this->clientList[i]->getNickName() == nick)
 			return (true);
@@ -37,7 +37,7 @@ bool server::nickExists(std::string nick)
 
 client *server::getClientbySock(int sock)
 {
-	for (int i = 0; i < this->clientList.size(); i++)
+	for (size_t i = 0; i < this->clientList.size(); i++)
 	{
 		if (this->clientList[i]->getSocket() == sock)
 			return (this->clientList[i]);
@@ -47,7 +47,7 @@ client *server::getClientbySock(int sock)
 
 client *server::getClientbyNick(std::string nick)
 {
-	for (int i = 0; i < this->clientList.size(); i++)
+	for (size_t i = 0; i < this->clientList.size(); i++)
 	{
 		if (this->clientList[i]->getNickName() == nick)
 			return (this->clientList[i]);
@@ -57,7 +57,7 @@ client *server::getClientbyNick(std::string nick)
 
 channel *server::getChannelbyName(std::string name)
 {
-	for (int i = 0; i < this->channelList.size(); i++)
+	for (size_t i = 0; i < this->channelList.size(); i++)
 	{
 		if (this->channelList[i]->getName() == name)
 			return (this->channelList[i]);
@@ -65,4 +65,3 @@ channel *server::getChannelbyName(std::string name)
 	throw ERR_NOSUCHCHANNEL;
 	return (NULL);
 }
-

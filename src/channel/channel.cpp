@@ -32,7 +32,7 @@ bool		channel::getInviteOnly() const
 
 bool channel::isRegistered(int sock)
 {
-	for (int i = 0 ; i < this->uList.size() ; i++)
+	for (size_t i = 0 ; i < this->uList.size() ; i++)
 	{
 		if (this->uList[i] == sock)
 			return (true);
@@ -42,7 +42,7 @@ bool channel::isRegistered(int sock)
 
 bool channel::isOperator(int sock)
 {
-	for (int i = 0 ; i < this->opList.size() ; i++)
+	for (size_t i = 0 ; i < this->opList.size() ; i++)
 	{
 		if (this->opList[i] == sock)
 			return (true);
@@ -53,15 +53,20 @@ bool channel::isOperator(int sock)
 void channel::addUser(int sock)
 {
 	if (isRegistered(sock))
-		throw "Error: User is already in channel";
+		throw ERR_USERONCHANNEL;
 	this->uList.push_back(sock);
 }
 
 void channel::setOperator(int sock)
 {
 	if (isOperator(sock))
-		throw "Error: User is already operator";
+		throw ERR_CHANOPRIVSNEEDED;
 	this->opList.push_back(sock);
+}
+
+std::string	channel::getPass(void) const
+{
+	return this->password;
 }
 
 void		channel::setTopicLock(bool b)
@@ -88,23 +93,38 @@ void channel::deleteOp(int sock)
 {
 	std::vector<int>::iterator it;
 
-	for (it = opList.begin(); it != opList.end(); ++it)
+	it = this->opList.begin();
+	while (it != opList.end())
+	{
 		if (opList[std::distance(opList.begin(), it)] == sock)
-			opList.erase(it);
+			it = opList.erase(it);
+		else
+			++it;
+	}
+}
+
+void		channel::deleteUser(int sock)
+{
+	std::vector<int>::iterator it;
+
+	it = this->uList.begin();
+	while (it != uList.end())
+	{
+		if (uList[std::distance(uList.begin(), it)] == sock)
+			it = uList.erase(it);
+		else
+			++it;
+	}
 }
 
 void channel::setTopic(std::string topic, int sock)
 {
-	if (topic.empty())
-		throw "Error: Empty topic";
 	if (this->topicLock)
 	{
-		for (int i = 0 ; i < this->opList.size() ; i++)
+		for (size_t i = 0 ; i < this->opList.size() ; i++)
 		{
 			if (this->opList[i] == sock)
 				break;
-			if (i == this->opList.size() - 1)
-				throw "Error: Topic is locked";
 		}
 	}
 	this->topic = topic;
@@ -113,6 +133,11 @@ void channel::setTopic(std::string topic, int sock)
 std::vector<int> &channel::getUList()
 {
 	return this->uList;
+}
+
+std::vector<int> channel::getOpList() const
+{
+	return this->opList;
 }
 
 bool		channel::sendToChannel(std::string to_send, int exc)

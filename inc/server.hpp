@@ -58,6 +58,7 @@ class server
 		client*					getClientbySock(int);
 		client*					getClientbyNick(std::string);
 		channel*				createChannel(std::string, std::string, int);
+		void					deleteChannel(std::string _name);
 		channel*				getChannelbyName(std::string);
 		bool					nickExists(std::string);
 

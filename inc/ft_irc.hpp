@@ -81,7 +81,7 @@ enum IrcErrCode {
 	ERR_TOOMANYTARGETS = 407, // <target> :<error code> recipients. <abort message>
     ERR_NEEDMOREPARAMS = 461, // <command> :Not enough parameters
     ERR_NOTREGISTERED = 451, // :You have not registered
-    ERR_CHANOPRIVSNEEDED = 482, // <channel> :You're not channel operator
+    ERR_CHANOPRIVSNEEDED = 482, // <channel> :You're not channel operator (segun gpt tmb se puede usar para cuando le das op a un user con op)
     ERR_NOTONCHANNEL = 442,  // <channel> :You're not on that channel
     ERR_USERNOTINCHANNEL = 441, // <nick> <channel> :They aren't on that channel // error al echar a alguien que no está en el canal
     ERR_NOSUCHNICK = 401,    // <nickname> :No such nick/channel
@@ -91,6 +91,7 @@ enum IrcErrCode {
     ERR_NICKNAMEINUSE = 433, // <nick> :Nickname is already in use
     ERR_BADCHANMASK = 476,
     ERR_INVITEONLYCHAN = 473, // invite only channel
+    ERR_USERONCHANNEL = 443, // user is already in the channel
 
 
     RPL_TOPIC = 332,         // <channel> :<topic> // éxito al unirse a un canal

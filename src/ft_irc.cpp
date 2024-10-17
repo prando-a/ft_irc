@@ -101,8 +101,11 @@ std::string itor(int rplCode)
             return "Bad channel name";
             break;
         case ERR_INVITEONLYCHAN:
-            return "Cannot join channel";
+            return "Cannot join to the channel";
             break;
+        case ERR_USERONCHANNEL:
+            return "User is already on the channel";
+            break ;
         default:
             break;
     }
@@ -160,7 +163,7 @@ int main(int argc, char **argv)
 {
     if (argv[1] == NULL|| !strcmp(argv[1], "-h"))
         return std::cout << "./ircserv <port> <password>" << std::endl, 0;
-	try
+    try
 	{
 		if (argc != 3 || !argv[1][0])
 			throw "Error: No arguments given.";

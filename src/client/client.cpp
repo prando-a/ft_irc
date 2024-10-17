@@ -34,9 +34,14 @@ void	client::deleteChannel(std::string _name)
 {
 	std::vector<std::string>::iterator it;
 
-	for (it = this->invitedChannels.begin(); it != invitedChannels.end(); ++it)
+	it = this->invitedChannels.begin();
+	while (it != invitedChannels.end())
+	{
 		if (invitedChannels[std::distance(invitedChannels.begin(), it)] == _name)
-			invitedChannels.erase(it);
+			it = invitedChannels.erase(it);
+		else
+			++it;
+	}
 }
 
 bool	client::isInvited(std::string _name)
@@ -52,8 +57,7 @@ bool	client::isInvited(std::string _name)
 void client::setAddress(void)
 {
 	this->addr_len = sizeof(this->address);
-	#warning if statement empty!!!!
-	if (getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len) == -1);
+	getpeername(this->socket, (struct sockaddr*)&this->address, &this->addr_len);
 	host_entry = gethostbyaddr(&address.sin_addr, sizeof(address.sin_addr), AF_INET);
 	std::cout << "Cliente conectado desde " << host_entry->h_name << std::endl;
 }

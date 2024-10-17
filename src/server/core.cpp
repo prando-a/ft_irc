@@ -58,7 +58,7 @@ void server::readData(void)
             {
                 write(1, buffer, valread);
                 std::vector<std::string> commands = split(buffer);
-                for (int j = 0; j < commands.size(); j++)
+                for (size_t j = 0; j < commands.size(); j++)
                     processData(commands[j], &sockets[i]);
             }
         }

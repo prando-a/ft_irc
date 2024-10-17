@@ -41,13 +41,16 @@ class channel
 		void		addUser(int);
 		std::string	getName(void) const;
 		std::string	getTopic(void) const;
+		std::string	getPass(void) const;
 		bool		sendToChannel(std::string to_send, int exc);
 		void		deleteOp(int sock);
 		void		deletePass();
+		void		deleteUser(int sock);
 		void		setTopicLock(bool b);
 		bool		getTopicLock() const;
 		bool		getInviteOnly() const;
 		std::vector<int>		&getUList();
+		std::vector<int> getOpList() const;
 		~channel();
 		channel(const channel &src);
 		channel &operator=(const channel &src);

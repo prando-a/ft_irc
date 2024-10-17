@@ -20,7 +20,7 @@ void command::checkTrailing(int required)
 		throw ERR_TOOMANYTARGETS;
 }
 
-void command::checkArgC(int min, int max)
+void command::checkArgC(size_t min, size_t max)
 {
 	if (this->params.size() < min)
 		throw ERR_NEEDMOREPARAMS;
