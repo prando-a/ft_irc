@@ -44,7 +44,7 @@ void server::readData(void)
         {
             // Leer datos del cliente
             memset(buffer, 0, sizeof(buffer));
-            int valread = read(sockets[i], buffer, 1024);
+            int valread = recv(sockets[i], buffer, sizeof(buffer) - 1, 0);
             if (valread == 0)
             {
                 // Si se recibe 0, el cliente se desconecta

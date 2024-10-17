@@ -55,7 +55,6 @@ void server::cmdJOIN(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	client *cli = getClientbySock(sock);
 	channel *ch;
-	std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
 	try
 	{
 		ch = getChannelbyName(cmd.getParams()[0]);

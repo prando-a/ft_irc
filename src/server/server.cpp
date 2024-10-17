@@ -14,14 +14,10 @@
 
 server::server(std::string pass, int port) : pass(pass), port(port)
 {
-	if (pass.length() == 0) std::cout << YELLOW <<
-		"[INFO] Setting server without password \n" << RESET;
+	if (pass.length() == 0) throw "Error: Empty passwords not accepted";
 	setCommandPTRs();
 	setSocket();
 	setHostname();
-	this->latestChID = 0;
-	this->latestUsrID = 0;
-
 }
 
 void server::setSocket(void)
