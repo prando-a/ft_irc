@@ -123,42 +123,6 @@ void sendErrResponse(std::string host, int rplCode, int sock)
 	send(sock, response.c_str(), response.length(), 0);
 }
 
-/*
-
-FUNCIONES PERMITIDAS
-
-Everything in C++ 98.
-socket, close, setsockopt, getsockname,
-getprotobyname, gethostbyname, getaddrinfo,
-freeaddrinfo, bind, connect, listen, accept, htons,
-htonl, ntohs, ntohl, inet_addr, inet_ntoa, send,
-recv, signal, sigaction, lseek, fstat, fcntl, poll
-(or equivalent)
-
-*/
-std::vector<std::string> split(std::string str)
-{
-	std::vector<std::string> params;
-	std::string tmp;
-	std::stringstream ss(str);
-	while (std::getline(ss, tmp, '\n'))
-		params.push_back(tmp);
-	return params;
-}
-
-// Prompt para probar comandos infinitamente. Descomenta también
-//  los couts del constructor de command para debugear
-//
-//void command_tester(void)
-//{
-//	std::string buffer;
-//	while ((std::cout << BOLD "tester" GREEN ">  " RESET)
-//	&& (std::getline(std::cin, buffer)) && !(buffer == "EXIT"))
-//	{
-//		command cmd(buffer);
-//	}
-//}
-
 int main(int argc, char **argv)
 {
     if (argv[1] == NULL|| !strcmp(argv[1], "-h"))

@@ -11,12 +11,13 @@ SRC =	ft_irc.cpp \
 		server/searcher.cpp \
 		server/commands.cpp 
 SRC_O = $(SRC:.cpp=.o)
-FLAGS =  -g -std=c++98 -Wall -Wextra -Werror
+FLAGS = -std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(addprefix $(OBJ_FOLDER), $(SRC_O))
 	c++ $(FLAGS) -o $@ $^
+	@echo -n "\033[0m"
 	@echo "\n" "100% - Compiled $(NAME) \n"
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.cpp

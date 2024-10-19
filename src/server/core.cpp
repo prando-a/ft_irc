@@ -20,7 +20,6 @@ void server::processData(std::string buffer, int *socket)
 	try
 	{
 		cmd.parse();
-		std::cout << "Trailing: " << cmd.getTrailing() << std::endl;
 		this->useCommand(cmd, *socket);
 	}
 	catch (IrcErrCode replCode)
@@ -56,10 +55,13 @@ void server::readData(void)
             }
             else
             {
-                write(1, buffer, valread);
-                std::vector<std::string> commands = split(buffer);
-                for (size_t j = 0; j < commands.size(); j++)
-                    processData(commands[j], &sockets[i]);
+				this->sockbuff[i] += buffer;
+                while (this->sockbuff[i].find("\n") != std::string::npos)
+				{
+					std::string line = this->sockbuff[i].substr(0, this->sockbuff[i].find("\n"));
+					this->processData(line, &sockets[i]);
+					this->sockbuff[i] = this->sockbuff[i].substr(this->sockbuff[i].find("\n") + 1);
+				}
             }
         }
     }

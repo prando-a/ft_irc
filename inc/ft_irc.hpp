@@ -140,7 +140,6 @@ class command;
 # include "client.hpp"
 # include "command.hpp"
 
-std::vector<std::string> split(std::string str);
 std::string intToStr(int n);
 void sendErrResponse(std::string host, int rplCode, int sock);
 

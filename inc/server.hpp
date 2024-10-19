@@ -28,12 +28,11 @@ class server
 		std::string				hostname;
 		fd_set					readfds;
 		int 					sockets[512];
+		std::string				sockbuff[512];
 
 
 		std::vector<client*>	clientList;
 		std::vector<channel*>	channelList;
-		unsigned long			latestChID;
-		unsigned long			latestUsrID;
 
 
 		typedef void			(server::*funcPTR)(command, int);
