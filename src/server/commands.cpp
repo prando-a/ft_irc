@@ -84,7 +84,7 @@ void server::cmdJOIN(command cmd, int sock)
 	ch->sendToChannel(res, -1);
 }
 
-void server::cmdPART(command cmd, int sock) //por terminar
+void server::cmdPART(command cmd, int sock) // por probar
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
@@ -98,7 +98,7 @@ void server::cmdPART(command cmd, int sock) //por terminar
 	std::cout << RED <<  ch->getUList().size() << std::endl;
 	if (!ch->getUList().size())
 	{
-		std::cout << GREEN << "No users in the channel, deleting ..." << RESET << std::endl;
+		std::cout << RED << "No users in the channel, deleting ..." << RESET << std::endl;
 		this->deleteChannel(ch->getName());
 		throw ERR_NOSUCHCHANNEL;
 	}
@@ -106,11 +106,26 @@ void server::cmdPART(command cmd, int sock) //por terminar
 		ch->setOperator(*ch->getUList().begin());
 }
 
-void	server::cmdWHO(command cmd, int sock)
+void	server::cmdWHO(command cmd, int sock) //por terminar
 {
 	(void)cmd;
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
+	channel *ch = getChannelbyName(cmd.getParams()[0]);
+	client *cli = getClientbySock(sock);
+	client *r;
+	std::string to_send;
+	for (std::vector<int>::iterator it = ch->getUList().begin(); it != ch->getUList().end(); ++it)
+	{
+		r = getClientbySock(*it);
+		to_send = "localhost 352 " + cli->getNickName()+ " " + ch->getName() + " "
+		+ cli->getUserName() + cli->getHostName() + " localhost " + r->getNickName() + ": 0 " + r->getRealName();
+		ch->sendToChannel(to_send, -1);
+	}
+	to_send = ":localhost 315 " + cli->getNickName() + " "
+			+ ch->getName()  + " :End of /WHO list";
+	ch->sendToChannel(to_send, -1) // end of WHO
+	
 	
 }
 

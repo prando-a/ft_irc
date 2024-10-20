@@ -130,6 +130,15 @@ void	server::deleteChannel(std::string _name)
 //falta eliminar el usuario de los canales en los que esté. Sí, debe ser aquí.
 void server::unregisterUser(int sock)
 {
+	std::vector<channel *>::iterator it;
+	for (it = channelList.begin(); it != channelList.end(); ++it)
+	{
+		if ((*it)->isOperator(sock))
+			(*it)->deleteOp(sock);
+		if ((*it)->isRegistered(sock))
+			(*it)->deleteUser(sock);
+	}
+	
 	for (size_t i = 0; i < this->clientList.size(); i++)
 	{
 		if (this->clientList[i]->getSocket() == sock)
