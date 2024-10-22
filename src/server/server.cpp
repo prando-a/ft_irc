@@ -26,7 +26,7 @@ void server::setSocket(void)
 		this->sockets[i] = 0;
 	this->_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (this->_socket == -1)
-		throw "Error: No se pudo crear el socket.";
+		throw "Error: Socket could not be created";
 
 	this->sockopt = 1;
 	if (setsockopt(this->_socket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &this->sockopt, sizeof(this->sockopt)))
