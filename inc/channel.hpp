@@ -29,9 +29,12 @@ class channel
 		int							usrLimit;
 		bool 						inviteOnly;
 		bool						topicLock;
+		channel(const channel &src);
+		channel &operator=(const channel &src);
 
 	public:
 		channel(std::string, std::string, int);
+		~channel();
 		bool		isRegistered(int);
 		bool		isOperator(int);
 		void		setOperator(int);
@@ -51,9 +54,6 @@ class channel
 		bool		getInviteOnly() const;
 		std::vector<int>		&getUList();
 		std::vector<int> getOpList() const;
-		~channel();
-		channel(const channel &src);
-		channel &operator=(const channel &src);
 };
 
 

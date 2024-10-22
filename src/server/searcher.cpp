@@ -12,9 +12,6 @@
 
 #include "../../inc/server.hpp"
 
-// Todas las funciones relacionadas a búsqueda y verificación de usuarios y canales
-// Faltan funciones de verificación de canales.
-
 bool server::isRegistered(int sock)
 {
 	for (size_t i = 0; i < this->clientList.size(); i++)

@@ -28,6 +28,7 @@
 # include <iostream>
 # include <cstdio>
 # include <string>
+# include <cstdlib>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/socket.h>
@@ -74,61 +75,36 @@ enum commandType
 };
 
 enum IrcErrCode {
-
-     // Respuestas generales de error
-    ERR_PASSWDMISMATCH = 464, // :Password incorrect
-    ERR_UNKNOWNCOMMAND = 421, // <command> :Unknown command
-	ERR_TOOMANYTARGETS = 407, // <target> :<error code> recipients. <abort message>
-    ERR_NEEDMOREPARAMS = 461, // <command> :Not enough parameters
-    ERR_NOTREGISTERED = 451, // :You have not registered
-    ERR_CHANOPRIVSNEEDED = 482, // <channel> :You're not channel operator (segun gpt tmb se puede usar para cuando le das op a un user con op)
-    ERR_NOTONCHANNEL = 442,  // <channel> :You're not on that channel
-    ERR_USERNOTINCHANNEL = 441, // <nick> <channel> :They aren't on that channel // error al echar a alguien que no está en el canal
-    ERR_NOSUCHNICK = 401,    // <nickname> :No such nick/channel
-    ERR_NOSUCHCHANNEL = 403, // <channel> :No such channel
-    ERR_UNKNOWNMODE = 472,   // <char> :is unknown mode char to me for <channel>
-    ERR_ALREADYREGISTRED = 462, // :You may not reregister
-    ERR_NICKNAMEINUSE = 433, // <nick> :Nickname is already in use
+    ERR_PASSWDMISMATCH = 464,
+    ERR_UNKNOWNCOMMAND = 421,
+	ERR_TOOMANYTARGETS = 407,
+    ERR_NEEDMOREPARAMS = 461,
+    ERR_NOTREGISTERED = 451,
+    ERR_CHANOPRIVSNEEDED = 482,
+    ERR_NOTONCHANNEL = 442,
+    ERR_USERNOTINCHANNEL = 441,
+    ERR_NOSUCHNICK = 401,
+    ERR_NOSUCHCHANNEL = 403,
+    ERR_UNKNOWNMODE = 472,
+    ERR_ALREADYREGISTRED = 462,
+    ERR_NICKNAMEINUSE = 433,
     ERR_BADCHANMASK = 476,
-    ERR_INVITEONLYCHAN = 473, // invite only channel
-    ERR_USERONCHANNEL = 443, // user is already in the channel
-
-
-    RPL_TOPIC = 332,         // <channel> :<topic> // éxito al unirse a un canal
-    // Respuestas básicas
-    RPL_WELCOME = 001,       // :Welcome to the Internet Relay Network <nick>!<user>@<host>
-    RPL_YOURHOST = 002,      // :Your host is <servername>, running version <version>
-    RPL_CREATED = 003,       // :This server was created <date>
-    RPL_MYINFO = 004,        // <servername> <version> <available user modes> <available channel modes>
-    RPL_BOUNCE = 005,        // :Try server <server name>, port <port number>
-
-    // Respuestas al comando JOIN
-    RPL_NAMREPLY = 353,      // = <channel> :<nick> *( " " <nick> )
-    RPL_ENDOFNAMES = 366,    // <channel> :End of /NAMES list
-
-
-
-    // Respuestas al comando PRIVMSG/NOTICE
-
-    ERR_CANNOTSENDTOCHAN = 404, // <channel> :Cannot send to channel
-    ERR_NOTEXTTOSEND = 412,  // :No text to send
-
-    // Respuestas al comando NICK
-    ERR_NONICKNAMEGIVEN = 431, // :No nickname given
-    ERR_ERRONEUSNICKNAME = 432, // <nick> :Erroneous nickname
-
-
-    // Respuestas al comando USER
-
-
-
-
-    // Respuestas al comando MODE
-    RPL_CHANNELMODEIS = 324, // <channel> <mode>
-   
-    ERR_USERSDONTMATCH = 502 // :Cannot change mode for other users
+    ERR_INVITEONLYCHAN = 473,
+    ERR_USERONCHANNEL = 443,
+    RPL_TOPIC = 332,
+    RPL_WELCOME = 001,
+    RPL_YOURHOST = 002,
+    RPL_CREATED = 003,
+    RPL_MYINFO = 004,
+    RPL_BOUNCE = 005,
+    RPL_NAMREPLY = 353,
+    RPL_ENDOFNAMES = 366,
+    ERR_CANNOTSENDTOCHAN = 404,
+    ERR_NOTEXTTOSEND = 412,
+    ERR_NONICKNAMEGIVEN = 431,
+    ERR_ERRONEUSNICKNAME = 432,
+    CUSTOM_PANIC_EPIC_EXIT = 666
 };
-
 
 class server;
 class channel;

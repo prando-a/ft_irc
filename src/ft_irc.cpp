@@ -109,7 +109,8 @@ std::string itor(int rplCode)
         default:
             break;
     }
-    return "If you can see this, I deserve dying slowly...";
+    std::cout << RED << "NO MEMORY, NO MEMORY!!!!! \n" << RESET;
+    exit(1);
 }
 
 void sendErrResponse(std::string host, int rplCode, int sock)
@@ -118,8 +119,6 @@ void sendErrResponse(std::string host, int rplCode, int sock)
                 response += host + " ";
                 response += intToStr(rplCode) + " : ";
                 response += itor(rplCode) + "\r\n";
-
-    std::cout << "Enviando:\n\t" << response << std::endl;
 	send(sock, response.c_str(), response.length(), 0);
 }
 
@@ -134,7 +133,6 @@ int main(int argc, char **argv)
         server server(argv[2], sToPort(argv[1]));
         while (true)
         {
-            //./server/core.cpp
             server.manageSockets();
             server.acceptConnection();
             server.readData();

@@ -13,8 +13,6 @@
 #include "../../inc/server.hpp"
 #include <algorithm>
 
-
-//completa y funcional
 void server::cmdNICK(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
@@ -25,7 +23,6 @@ void server::cmdNICK(command cmd, int sock)
 	cli->setNickName(cmd.getParams()[0]);
 }
 
-//completa y funcional
 void server::cmdUSER(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
@@ -40,7 +37,6 @@ void server::cmdUSER(command cmd, int sock)
 	cli->setHostName();
 }
 
-//necesita pruebas, hay que gestionar el mensaje de despedida en el trailing,
 void server::cmdQUIT(command cmd, int sock)
 {
 	(void)cmd;
@@ -95,12 +91,11 @@ void server::cmdPART(command cmd, int sock) // por probar
 	if (ch->isOperator(sock))
 		ch->deleteOp(sock);
 	ch->deleteUser(sock);
-	std::cout << RED <<  ch->getUList().size() << std::endl;
 	if (!ch->getUList().size())
 	{
 		std::cout << RED << "No users in the channel, deleting ..." << RESET << std::endl;
 		this->deleteChannel(ch->getName());
-		throw ERR_NOSUCHCHANNEL;
+		return ;
 	}
 	if (!ch->getOpList().size())
 		ch->setOperator(*ch->getUList().begin());
@@ -113,18 +108,22 @@ void	server::cmdWHO(command cmd, int sock) //por terminar
 		throw ERR_NOTREGISTERED;
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 	client *cli = getClientbySock(sock);
-	client *r;
 	std::string to_send;
+	client *tmp;
 	for (std::vector<int>::iterator it = ch->getUList().begin(); it != ch->getUList().end(); ++it)
 	{
-		r = getClientbySock(*it);
-		to_send = "localhost 352 " + cli->getNickName()+ " " + ch->getName() + " "
-		+ cli->getUserName() + cli->getHostName() + " localhost " + r->getNickName() + ": 0 " + r->getRealName();
-		ch->sendToChannel(to_send, -1);
+		to_send = ":" + this->getHostname() + " 352 " + cli->getNickName() + " " + ch->getName() + " ";
+		tmp = getClientbySock(*it);
+		to_send += tmp->getNickName();
+		if (ch->isOperator(*it))
+			to_send += " @ : ";
+		else to_send += " : ";
+		to_send += tmp->getRealName() + "\r\n";
+		send(sock, to_send.c_str(), to_send.size(), 0);
 	}
-	to_send = ":localhost 315 " + cli->getNickName() + " "
-			+ ch->getName()  + " :End of /WHO list";
-	ch->sendToChannel(to_send, -1) // end of WHO
+	to_send = ":" + this->getHostname() + " 315 " + cli->getNickName() + " "
+			+ ch->getName()  + " :End of /WHO list\r\n";
+	send(sock, to_send.c_str(), to_send.size(), 0);
 	
 	
 }
@@ -143,14 +142,14 @@ void server::cmdPRIVMSG(command cmd, int sock)
 		ch = NULL;
 	}
 	client *sender = getClientbySock(sock);
-	if (ch) // for message to a channel
+	if (ch)
 	{
 		if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 			throw ERR_USERNOTINCHANNEL;
 		std::string msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
 		ch->sendToChannel(msg, sock);
 	}
-	else if (client *cl = getClientbyNick(cmd.getParams()[0])) // for message to a person
+	else if (client *cl = getClientbyNick(cmd.getParams()[0]))
 	{
 		std::string priv_msg = ":" + sender->getNickName() + "!" + sender->getNickName() + "@" + getHostname() +" PRIVMSG " + cmd.getParams()[0] + " :" + cmd.getTrailing() + "\r\n";
 		send(cl->getSocket(), priv_msg.c_str(), priv_msg.length(), 0);
@@ -167,7 +166,6 @@ void server::cmdKICK(command cmd, int sock)
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
 	if (!ch->isOperator(sock))
 		throw ERR_CHANOPRIVSNEEDED;
-	// comprobar que sea op
 	std::vector<int>::iterator it;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 		throw ERR_USERNOTINCHANNEL;
@@ -207,9 +205,8 @@ void server::cmdTOPIC(command cmd, int sock)
 		throw ERR_NOTREGISTERED;
 	client *cli = getClientbySock(sock);
 	channel *ch = getChannelbyName(cmd.getParams()[0]);
-	if (ch->getTopicLock() && !ch->isOperator(sock)) //Si esta bloqueado y no es op no se puede cambiar
+	if (ch->getTopicLock() && !ch->isOperator(sock))
 		throw ERR_CHANOPRIVSNEEDED;
-	std::cout << "topic lock = " << ch->getTopicLock() << " is op = " << ch->isOperator(sock) <<  std::endl;
 	if (std::find(ch->getUList().begin(), ch->getUList().end(), sock) == ch->getUList().end())
 		throw ERR_USERNOTINCHANNEL;
 	ch->setTopic(cmd.getTrailing(), sock);
@@ -236,7 +233,7 @@ void server::cmdMODE(command cmd, int sock)
 	client	*cl = getClientbySock(sock);
 	if (!ch->isOperator(sock))
 		throw ERR_CHANOPRIVSNEEDED;
-	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t") //For topic lock
+	if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+t")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setTopicLock(true);
@@ -248,7 +245,7 @@ void server::cmdMODE(command cmd, int sock)
 		ch->setTopicLock(false);
 		ch->sendToChannel(":" + cl->getNickName() + " MODE " + " -t\r\n", -1);
 	}
-	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+o") //Make a user op
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+o")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setOperator(getClientbyNick(cmd.getParams()[2])->getSocket());
@@ -260,7 +257,7 @@ void server::cmdMODE(command cmd, int sock)
 		ch->deleteOp(getClientbyNick(cmd.getParams()[2])->getSocket());
 		ch->sendToChannel(":" + cl->getNickName() + " MODE " + cmd.getParams()[2] + "\r\n", -1);
 	}
-	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+k") //Put password
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+k")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setPass(cmd.getParams()[2]);
@@ -272,7 +269,7 @@ void server::cmdMODE(command cmd, int sock)
 		ch->deletePass();
 		ch->sendToChannel(":" + cl->getNickName() + " MODE " + cmd.getParams()[2] + "\r\n", -1);
 	}
-	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+i") //For invite only channel
+	else if (cmd.getParams().size() > 1 && cmd.getParams()[1] == "+i")
 	{
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setInviteOnly(true);

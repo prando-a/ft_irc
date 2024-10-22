@@ -146,8 +146,9 @@ bool		channel::sendToChannel(std::string to_send, int exc)
 
 	for (it = uList.begin(); it != this->uList.end(); ++it)
 	{
-		std::cout << "Sending to " << *it << std::endl;
-		if (uList[std::distance(uList.begin(), it)] != exc && send(uList[std::distance(uList.begin(), it)], to_send.c_str(), to_send.length(), 0) == -1)
+		if (uList[std::distance(uList.begin(), it)] != exc
+			&& send(uList[std::distance(uList.begin(), it)],
+			to_send.c_str(), to_send.length(), 0) == -1)
 			return false;
 	}
 	return true;
@@ -163,7 +164,7 @@ std::string channel::getTopic(void) const { return (this->topic); }
 
 channel::~channel()
 {
-	std::cout << RED << "CANAL DESTRUIDO AAAAAAAAAAAA\n"; 
+	std::cout << YELLOW << "[INFO] Deleted channel with name -> " << this->name << "\n" << RESET; 
 }
 
 channel::channel(const channel &src)

@@ -29,11 +29,10 @@ class server
 		fd_set					readfds;
 		int 					sockets[512];
 		std::string				sockbuff[512];
-
-
 		std::vector<client*>	clientList;
 		std::vector<channel*>	channelList;
 
+		std::string				logo;
 
 		typedef void			(server::*funcPTR)(command, int);
 		funcPTR					func[13];

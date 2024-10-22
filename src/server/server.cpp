@@ -30,7 +30,7 @@ void server::setSocket(void)
 
 	this->sockopt = 1;
 	if (setsockopt(this->_socket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &this->sockopt, sizeof(this->sockopt)))
-		throw "Error: No se pudo configurar el socket.";
+		throw "Error: Socket not set up";
 
 	this->address.sin_family = AF_INET;
 	this->address.sin_addr.s_addr = INADDR_ANY;
@@ -38,15 +38,15 @@ void server::setSocket(void)
 	this->addrlen = sizeof(this->address);
 
 	if (bind(this->_socket, (struct sockaddr *)&this->address, sizeof(this->address)) < 0)
-		throw "Error: No se pudo enlazar el socket.";
+		throw "Error: could not bind() socket";
 
 	fcntl(this->_socket, F_SETFL, O_NONBLOCK);
 
 	if (listen(this->_socket, 3) < 0)
-		throw "Error: No se pudo escuchar el socket.";
+		throw "Error: Socket could not be listened";
 
-	std::cout << "Socket configurado correctamente. " << std::endl;
-	std::cout << "Servidor escuchando en el puerto " << this->port << "..." << std::endl;
+	std::cout << "[INFO] Socket successfully set up" << std::endl;
+	std::cout << "[INFO] Listening on port " << this->port << "..." << std::endl;
 }
 
 void server::setHostname()
@@ -54,13 +54,13 @@ void server::setHostname()
     std::vector<char> buffer(256);
 
 	if (gethostname(buffer.data(), buffer.size()) == -1)
-		throw "Error al obtener el hostname";
+		throw "Error obtaining hostname";
 
     while (strlen(buffer.data()) == buffer.size() - 1)
 	{
 		buffer.resize(buffer.size() * 2);
         if (gethostname(buffer.data(), buffer.size()) == -1)
-			throw "Error al obtener el hostname";
+			throw "Error obtaining hostname";
     }
 
     this->hostname = std::string(buffer.data());
@@ -99,13 +99,25 @@ void server::registerUser(int sock)
 {
 	if (isRegistered(sock))
 		throw ERR_ALREADYREGISTRED;
-	client* newClient = new client(sock);
+
+	client* newClient; 
+	try
+		{ newClient = new client(sock); }
+	catch (std::bad_alloc e)
+		{ throw CUSTOM_PANIC_EPIC_EXIT; }
+
 	this->clientList.push_back(newClient);
 }
 
 channel *server::createChannel(std::string name, std::string topic, int sock)
 {
-	channel *ch = new channel(name, topic, sock);
+	channel *ch;
+	
+	try
+		{ ch = new channel(name, topic, sock); }
+	catch (std::bad_alloc e)
+		{ throw CUSTOM_PANIC_EPIC_EXIT; }
+
 	this->channelList.push_back(ch);
 	return (ch);
 }
@@ -127,7 +139,6 @@ void	server::deleteChannel(std::string _name)
 	}
 }
 
-//falta eliminar el usuario de los canales en los que esté. Sí, debe ser aquí.
 void server::unregisterUser(int sock)
 {
 	std::vector<channel *>::iterator it;

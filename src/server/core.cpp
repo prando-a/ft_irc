@@ -15,7 +15,6 @@
 void server::processData(std::string buffer, int *socket)
 {
     if (buffer.length() == 0 || *socket == 0) return;
-	std::cout << "Recibido: " << buffer << std::endl;
 	command cmd(buffer);
 	try
 	{
@@ -35,19 +34,15 @@ void server::processData(std::string buffer, int *socket)
 void server::readData(void)
 {
 	char buffer[1024];
-	// Leer datos de los clientes
     for (int i = 0; i < 512; i++)
     {
-        // Si el socket está activo
         if (FD_ISSET(sockets[i], &readfds))
         {
-            // Leer datos del cliente
             memset(buffer, 0, sizeof(buffer));
             int valread = recv(sockets[i], buffer, sizeof(buffer) - 1, 0);
             if (valread == 0)
             {
-                // Si se recibe 0, el cliente se desconecta
-                std::cout << "Cliente desconectado: FD " << sockets[i] << std::endl;
+                std::cout << GREEN << "[INFO] Disconnected socket " << sockets[i] << std::endl << RESET;
                 if (isRegistered(sockets[i]))
 					unregisterUser(sockets[i]);
 				close(sockets[i]);
@@ -74,16 +69,13 @@ void server::acceptConnection(void)
 		int new_socket;
         new_socket = accept(this->_socket, (struct sockaddr *)&this->address, (socklen_t *)&this->addrlen);
 		if (new_socket < 0)
-			throw "Error: No se pudo aceptar la conexión.";
-        std::cout << "Nueva conexión aceptada: FD " << new_socket << std::endl;
-
-        // Añadir nuevo cliente a la lista
+			throw "Error: Connection refused.";
+        std::cout << GREEN << "[INFO] Accepted connection with socket " << new_socket << std::endl << RESET;
         for (int i = 0; i < 512; i++)
 		{
             if (this->sockets[i] == 0)
             {
                 this->sockets[i] = new_socket;
-                std::cout << "Agregando a la lista de clientes en la posición " << i << std::endl;
                 break;
             }
         }
@@ -92,15 +84,9 @@ void server::acceptConnection(void)
 
 void server::manageSockets(void)
 {
-	    // Limpiar el conjunto de descriptores
         FD_ZERO(&this->readfds);
-
-        // Agregar el socket del servidor al conjunto
         FD_SET(this->getSocket(), &this->readfds);
-
-        // Agregar los sockets de clientes al conjunto
         int max_sd = this->getSocket();
-
         for (int i = 0; i < 512; i++)
 		{
             int sd = this->sockets[i];
@@ -109,8 +95,6 @@ void server::manageSockets(void)
             if (sd > max_sd)
                 max_sd = sd;
         }
-
-		// Esperar actividad en alguno de los sockets
         if (select(max_sd + 1, &readfds, NULL, NULL, NULL) < 0)
-            perror("Error en select");
+            throw "Error: Failed select() launch";
 }
