@@ -118,5 +118,6 @@ class command;
 
 std::string intToStr(int n);
 void sendErrResponse(std::string host, int rplCode, int sock);
+int	ft_atoi(const char *str);
 
 #endif

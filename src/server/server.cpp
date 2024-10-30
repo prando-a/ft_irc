@@ -12,12 +12,48 @@
 
 #include "../../inc/server.hpp"
 
+//   /$$$$$$   /$$          /$$                     //
+//  /$$__  $$ | $$         |__/                     //
+// | $$  \__//$$$$$$        /$$  /$$$$$$   /$$$$$$$ //
+// | $$$$   |_  $$_/       | $$ /$$__  $$ /$$_____/ //
+// | $$_/     | $$         | $$| $$  \__/| $$       //
+// | $$       | $$ /$$     | $$| $$      | $$       //
+// | $$       |  $$$$/     | $$| $$      |  $$$$$$$ //
+// |__/        \___//$$$$$$|__/|__/       \_______/ //
+//                 |______/           by            //
+//                                       prando-a   //
+//                                       jose-mgo   //
+
 server::server(std::string pass, int port) : pass(pass), port(port)
 {
 	if (pass.length() == 0) throw "Error: Empty passwords not accepted";
 	setCommandPTRs();
 	setSocket();
 	setHostname();
+
+	logo[0] = "//   /$$$$$$   /$$          /$$                     //";
+	logo[1] = "//  /$$__  $$ | $$         |__/                     //";
+	logo[2] = "// | $$  \\__//$$$$$$        /$$  /$$$$$$   /$$$$$$$ //";
+	logo[3] = "// | $$$$   |_  $$_/       | $$ /$$__  $$ /$$_____/ //";
+	logo[4] = "// | $$_/     | $$         | $$| $$  \\__/| $$       //";
+	logo[5] = "// | $$       | $$ /$$     | $$| $$      | $$       //";
+	logo[6] = "// | $$       |  $$$$/     | $$| $$      |  $$$$$$$ //";
+	logo[7] = "// |__/        \\___//$$$$$$|__/|__/       \\_______/ //";
+	logo[8] = "//                 |______/           by            //";
+	logo[9] = "//                                       prando-a   //";
+	logo[10] = "//                                       jose-mgo   //";
+
+	printLogo();
+}
+
+void server::printLogo()
+{
+	std::cout << GREEN;
+	for (int i = 0; i < 11; i++)
+	{
+		std::cout << logo[i] << "\n";
+	}
+	std::cout << "\n" << RESET;
 }
 
 void server::setSocket(void)
@@ -64,24 +100,24 @@ void server::setHostname()
     }
 
     this->hostname = std::string(buffer.data());
-	std::cout << "Server hostname: " << this->hostname << std::endl;
+	std::cout << "Server hostname: " << this->hostname << std::endl << "\n";
 }
 
 void server::setCommandPTRs(void)
 {
-	this->func[NICK] =		&server::cmdNICK;
-	this->func[USER] =		&server::cmdUSER;
-	this->func[QUIT] =		&server::cmdQUIT;
-	this->func[JOIN] =		&server::cmdJOIN;
-	this->func[PART] =		&server::cmdPART;
+	this->func[NICK]	=	&server::cmdNICK;
+	this->func[USER]	=	&server::cmdUSER;
+	this->func[QUIT]	=	&server::cmdQUIT;
+	this->func[JOIN]	=	&server::cmdJOIN;
+	this->func[PART]	=	&server::cmdPART;
 	this->func[PRIVMSG] =	&server::cmdPRIVMSG;
-	this->func[KICK] =		&server::cmdKICK;
-	this->func[INVITE] =	&server::cmdINVITE;
-	this->func[TOPIC] =		&server::cmdTOPIC;
-	this->func[MODE] =		&server::cmdMODE;
-	this->func[CAP] =		&server::cmdCAP;
-	this->func[PASS] =		&server::cmdPASS;
-	this->func[WHO] =		&server::cmdWHO;
+	this->func[KICK]	=	&server::cmdKICK;
+	this->func[INVITE]	=	&server::cmdINVITE;
+	this->func[TOPIC]	=	&server::cmdTOPIC;
+	this->func[MODE]	=	&server::cmdMODE;
+	this->func[CAP]		=	&server::cmdCAP;
+	this->func[PASS]	=	&server::cmdPASS;
+	this->func[WHO]		=	&server::cmdWHO;
 }
 
 void server::useCommand(command cmd, int sock)
@@ -170,7 +206,7 @@ std::string	server::getHostname(void) const	{ return (this->hostname);	}
 server::~server()
 {
 	close(this->_socket);
-	std::cout << "Servidor cerrado." << std::endl;
+	std::cout << "Server closed" << std::endl;
 }
 
 server::server(const server &src)

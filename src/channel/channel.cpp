@@ -154,6 +154,11 @@ bool		channel::sendToChannel(std::string to_send, int exc)
 	return true;
 }
 
+void	channel::setLimit(int l)
+{
+	this->usrLimit = l;
+}
+
 bool		channel::getTopicLock() const
 {
 	return this->topicLock;
@@ -161,6 +166,7 @@ bool		channel::getTopicLock() const
 
 std::string channel::getName(void)  const { return (this->name);  }
 std::string channel::getTopic(void) const { return (this->topic); }
+int	channel::getLimit() const { return (this->usrLimit); }
 
 channel::~channel()
 {

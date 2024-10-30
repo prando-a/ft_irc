@@ -124,6 +124,7 @@ void sendErrResponse(std::string host, int rplCode, int sock)
 
 int main(int argc, char **argv)
 {
+    std::cout << "\n";
     if (argv[1] == NULL|| !strcmp(argv[1], "-h"))
         return std::cout << "./ircserv <port> <password>" << std::endl, 0;
     try

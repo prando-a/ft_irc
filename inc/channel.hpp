@@ -41,6 +41,7 @@ class channel
 		void		setTopic(std::string, int);
 		void		setPass(std::string password);
 		void		setInviteOnly(bool b);
+		void		setLimit(int l);
 		void		addUser(int);
 		std::string	getName(void) const;
 		std::string	getTopic(void) const;
@@ -52,6 +53,7 @@ class channel
 		void		setTopicLock(bool b);
 		bool		getTopicLock() const;
 		bool		getInviteOnly() const;
+		int			getLimit() const;
 		std::vector<int>		&getUList();
 		std::vector<int> getOpList() const;
 };

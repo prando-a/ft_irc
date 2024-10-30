@@ -54,6 +54,8 @@ void server::cmdJOIN(command cmd, int sock)
 	try
 	{
 		ch = getChannelbyName(cmd.getParams()[0]);
+		if (ch->getLimit() != NO_LIMIT && ch->getUList().size() + 1 >= static_cast<unsigned long long>(ch->getLimit()))
+			throw ERR_NOSUCHCHANNEL;
 		if (!cli->isInvited(cmd.getParams()[0]) && ((!ch->getPass().empty() && cmd.getParams().size() < 2)
 			|| (!ch->getPass().empty() && ch->getPass() != cmd.getParams()[1])))
 			throw ERR_PASSWDMISMATCH;
@@ -280,6 +282,17 @@ void server::cmdMODE(command cmd, int sock)
 		channel *ch = getChannelbyName(cmd.getParams()[0]);
 		ch->setInviteOnly(false);
 		ch->sendToChannel(":" + cl->getNickName() + " MODE " + "\r\n", -1);
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "+l")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		if (static_cast<unsigned long long>(ft_atoi(cmd.getParams()[2].c_str())) >= ch->getUList().size())
+			ch->setLimit(ft_atoi(cmd.getParams()[2].c_str()));
+	}
+	else if (cmd.getParams().size() > 2 && cmd.getParams()[1] == "-l")
+	{
+		channel *ch = getChannelbyName(cmd.getParams()[0]);
+		ch->setLimit(NO_LIMIT);
 	}
 	else
 		throw ERR_UNKNOWNMODE;

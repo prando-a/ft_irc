@@ -32,7 +32,7 @@ class server
 		std::vector<client*>	clientList;
 		std::vector<channel*>	channelList;
 
-		std::string				logo;
+		std::string				logo[11];
 
 		typedef void			(server::*funcPTR)(command, int);
 		funcPTR					func[13];
@@ -63,6 +63,7 @@ class server
 		void 					setCommandPTRs(void);
 		void 					setSocket(void);
 		void 					setHostname(void);
+		void					printLogo(void);
 		std::string				getPass(void) const;
 
 
