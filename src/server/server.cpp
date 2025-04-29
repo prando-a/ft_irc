@@ -12,18 +12,6 @@
 
 #include "../../inc/server.hpp"
 
-//   /$$$$$$   /$$          /$$                     //
-//  /$$__  $$ | $$         |__/                     //
-// | $$  \__//$$$$$$        /$$  /$$$$$$   /$$$$$$$ //
-// | $$$$   |_  $$_/       | $$ /$$__  $$ /$$_____/ //
-// | $$_/     | $$         | $$| $$  \__/| $$       //
-// | $$       | $$ /$$     | $$| $$      | $$       //
-// | $$       |  $$$$/     | $$| $$      |  $$$$$$$ //
-// |__/        \___//$$$$$$|__/|__/       \_______/ //
-//                 |______/           by            //
-//                                       prando-a   //
-//                                       jose-mgo   //
-
 server::server(std::string pass, int port) : pass(pass), port(port)
 {
 	if (pass.length() == 0) throw "Error: Empty passwords not accepted";

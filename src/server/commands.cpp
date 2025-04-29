@@ -82,11 +82,10 @@ void server::cmdJOIN(command cmd, int sock)
 	ch->sendToChannel(res, -1);
 }
 
-void server::cmdPART(command cmd, int sock) // por probar
+void server::cmdPART(command cmd, int sock)
 {
 	if (isRegistered(sock) == false)
 		throw ERR_NOTREGISTERED;
-	//client	*cli = getClientbySock(sock);
 	channel	*ch = getChannelbyName(cmd.getParams()[0]);
 	if (!ch->isRegistered(sock))
 		throw ERR_USERNOTINCHANNEL;
@@ -103,7 +102,7 @@ void server::cmdPART(command cmd, int sock) // por probar
 		ch->setOperator(*ch->getUList().begin());
 }
 
-void	server::cmdWHO(command cmd, int sock) //por terminar
+void	server::cmdWHO(command cmd, int sock)
 {
 	(void)cmd;
 	if (isRegistered(sock) == false)

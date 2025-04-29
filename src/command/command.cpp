@@ -32,17 +32,6 @@ command::command(std::string cmd)
 
 	this->type = setType(this->params[0]);
 	this->params.erase(this->params.begin());
-
-	//IMPRIMIR PARAMETROS (DEBUG)
-	// --------------------------------------------------------
-	//std::cout << "\nCommand: \n";
-	//for (int i = 0; i < this->params.size(); i++)
-	//{
-	//	std::cout << this->params[i] << "\n";
-	//}
-	//std::cout << "Trailing: " << this->trailing << "\n";
-	//std::cout << "Vector size: " << this->params.size() << "\n\n\n";
-	// --------------------------------------------------------
 }
 
 
